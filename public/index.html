@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #E8F4F8; height: 100vh; overflow: hidden; }
+    .app-container { display: flex; height: 100vh; }
+    .sidebar { width: 250px; background: #2E86AB; color: white; flex-shrink: 0; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+    .sidebar-header { padding: 20px; background: #1C5F7B; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-header h1 { font-size: 1.2rem; font-weight: 600; text-align: center; }
+    .nav-menu { list-style: none; padding: 20px 0; }
+    .nav-item { margin: 5px 15px; }
+    .nav-link { display: flex; align-items: center; padding: 12px 15px; color: rgba(255,255,255,0.8); text-decoration: none; border-radius: 8px; transition: all 0.3s ease; cursor: pointer; font-size: 0.9rem; }
+    .nav-link:hover { background: rgba(255,255,255,0.15); color: white; transform: translateX(5px); }
+    .nav-link.active { background: #5DADE2; color: white; font-weight: 600; }
+    .nav-icon { margin-right: 10px; font-size: 1.1rem; width: 20px; text-align: center; }
+    .main-content { flex: 1; overflow-y: auto; background: #FAFBFC; }
+    .content-header { background: white; padding: 20px 30px; border-bottom: 1px solid #e9ecef; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .content-header h2 { color: #2E86AB; font-size: 1.5rem; font-weight: 600; }
+    .content-body { padding: 30px; }
+    .tab-content { display: none; animation: fadeIn 0.3s ease; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.06); margin-bottom: 25px; overflow: hidden; border: 1px solid #E5F2F7; }
+    .card-header { padding: 20px; background: #F0F8FC; border-bottom: 1px solid #E5F2F7; font-weight: 600; color: #2E86AB; }
+    .card-body { padding: 25px; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .form-group { display: flex; flex-direction: column; position: relative; }
+    .form-group label { margin-bottom: 8px; font-weight: 600; color: #2E86AB; font-size: 0.9rem; }
+    input, select, textarea { padding: 12px; border: 2px solid #E5F2F7; border-radius: 8px; font-size: 0.9rem; transition: all 0.3s ease; background: white; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #5DADE2; box-shadow: 0 0 0 3px rgba(93, 173, 226, 0.1); }
+    .btn { padding: 12px 20px; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .btn-primary { background: #5DADE2; color: white; }
+    .btn-success { background: #28a745; color: white; }
+    .btn-danger { background: #dc3545; color: white; }
+    .btn-warning { background: #ffc107; color: #212529; }
+    .btn-secondary { background: #6c757d; color: white; }
+    .btn-info { background: #17a2b8; color: white; }
+    .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+    .table-container { overflow-x: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #E5F2F7; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #E5F2F7; }
+    th { background: #F0F8FC; font-weight: 600; color: #2E86AB; font-size: 0.9rem; }
+    tr:hover { background: #F8FBFD; }
+    .status-normal { background: #d4edda; color: #155724; }
+    .status-low { background: #fff3cd; color: #856404; }
+    .status-zero { background: #f8d7da; color: #721c24; }
+    .status-critical { background: #f8d7da; color: #721c24; }
+    .status-optimal { background: #d4edda; color: #155724; }
+    .status-best { background: #cce5ff; color: #004085; }
+    .text-success { color: #28a745; font-weight: 600; }
+    .text-danger { color: #dc3545; font-weight: 600; }
+    .text-warning { color: #ffc107; font-weight: 600; }
+    .text-info { color: #17a2b8; font-weight: 600; }
+    .message { padding: 12px 15px; border-radius: 8px; margin: 15px 0; font-weight: 500; }
+    .message.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .message.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .message.warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+    .message.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    .loading { display: none; text-align: center; padding: 20px; color: #5DADE2; font-style: italic; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .stat-card { background: white; padding: 25px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.06); border-left: 4px solid #5DADE2; border: 1px solid #E5F2F7; }
+    .stat-value { font-size: 2rem; font-weight: 700; color: #2E86AB; margin-bottom: 5px; }
+    .stat-label { color: #6c757d; font-size: 0.9rem; font-weight: 500; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 25px; }
+    .chart-card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #E5F2F7; box-shadow: 0 4px 6px rgba(0,0,0,0.06); }
+    .chart-card h4 { color: #2E86AB; margin-bottom: 15px; font-size: 1rem; font-weight: 600; }
+    .chart-container { position: relative; height: 280px; width: 100%; }
+    .kpi-produccion { border-left-color: #17a2b8 !important; }
+    .kpi-promedio { border-left-color: #ffc107 !important; }
+    .kpi-mejor { border-left-color: #28a745 !important; }
+    .kpi-peor { border-left-color: #dc3545 !important; }
+
+    .bitacora-item { background: white; border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; border-left: 6px solid #5DADE2; box-shadow: 0 2px 6px rgba(0,0,0,0.06); border: 1px solid #E5F2F7; }
+    .bitacora-item.status-critical { border-left-color: #dc3545; }
+    .bitacora-item.status-normal { border-left-color: #ffc107; }
+    .bitacora-item.status-optimal { border-left-color: #28a745; }
+    .bitacora-item.status-best { border-left-color: #5DADE2; }
+    .bitacora-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+    .bitacora-header .fecha { color: #6c757d; font-size: 0.85rem; font-weight: 600; }
+    .bitacora-header .usuario { color: #2E86AB; font-size: 1.05rem; font-weight: 700; }
+    .bitacora-info { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.9rem; color: #495057; }
+    .bitacora-info strong { color: #2E86AB; }
+    .bitacora-descripcion { margin-top: 10px; color: #495057; font-style: italic; font-size: 0.9rem; padding: 8px 12px; background: #F8FBFD; border-radius: 6px; }
+    .nivel-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-weight: 700; font-size: 0.8rem; }
+    .nivel-badge.status-critical { background: #f8d7da; color: #721c24; }
+    .nivel-badge.status-normal { background: #fff3cd; color: #856404; }
+    .nivel-badge.status-optimal { background: #d4edda; color: #155724; }
+    .nivel-badge.status-best { background: #cce5ff; color: #004085; }
+
+    /* Barra superior compacta */
+    .admin-toolbar {
+      background: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #e9ecef;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .admin-toolbar .btn-tool {
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: white;
+    }
+    .admin-toolbar .btn-tool:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+    .btn-tool-inv { background: #28a745; }
+    .btn-tool-reset { background: #dc3545; }
+    .btn-tool-prod { background: #2E86AB; }
+
+    .admin-action-panel {
+      display: none;
+      background: white;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      margin: 0;
+      border: 2px solid #5DADE2;
+      border-top: none;
+      animation: slideDown 0.3s ease;
+    }
+    .admin-action-panel.visible { display: block; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+    .admin-action-panel .panel-header { padding: 15px 20px; background: #F0F8FC; border-bottom: 1px solid #E5F2F7; display: flex; justify-content: space-between; align-items: center; }
+    .admin-action-panel .panel-header h3 { color: #2E86AB; font-size: 1rem; font-weight: 700; }
+    .admin-action-panel .panel-body { padding: 20px; }
+    .admin-action-panel .panel-close { background: transparent; border: none; color: #6c757d; font-size: 1.3rem; cursor: pointer; line-height: 1; padding: 0 8px; transition: color 0.2s; }
+    .admin-action-panel .panel-close:hover { color: #dc3545; }
+    .panel-warning { border-color: #dc3545 !important; }
+    .panel-warning .panel-header { background: #f8d7da; }
+    .panel-warning .panel-header h3 { color: #721c24; }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-overlay.visible { display: flex; }
+    .modal-box {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-box h3 { color: #2E86AB; margin-bottom: 15px; font-size: 1.2rem; }
+    .modal-box .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+    @media (max-width: 768px) {
+      .sidebar { width: 100%; height: auto; position: fixed; top: 0; left: -100%; z-index: 1000; transition: left 0.3s ease; }
+      .sidebar.open { left: 0; }
+      .main-content { width: 100%; }
+      .form-grid { grid-template-columns: 1fr; }
+      .actions { flex-direction: column; }
+      .charts-grid { grid-template-columns: 1fr; }
+      .admin-toolbar { justify-content: center; }
+    }
+  </style>
+</head>
+<body onload="initializeApp()">
+  <div class="app-container">
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <h1>SIHO LAB</h1>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item"><a class="nav-link active" onclick="showTab('dashboard')"><span class="nav-icon">📊</span>Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="showTab('productos')"><span class="nav-icon">📦</span>Nuevo producto</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="showTab('movimientos')"><span class="nav-icon">📋</span>Movimientos</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="showTab('inventario')"><span class="nav-icon">📊</span>Inventario</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="showTab('reportes')"><span class="nav-icon">📈</span>Reportes</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="showTab('buscar')"><span class="nav-icon">🔍</span>Buscar</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="showTab('bitacora')"><span class="nav-icon">📝</span>Bitácora</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="showTab('admin')"><span class="nav-icon">🔐</span>Admin</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="showTab('configuracion')"><span class="nav-icon">⚙️</span>Configuración</a></li>
+      </ul>
+    </nav>
+
+    <div class="main-content">
+      <!-- DASHBOARD -->
+      <div id="dashboard" class="tab-content active">
+        <div class="content-header"><h2>Dashboard General</h2></div>
+        <div class="content-body">
+          <div class="stats-grid" id="statsGrid"></div>
+          <div class="card">
+            <div class="card-header">Alertas de Stock</div>
+            <div class="card-body">
+              <div class="actions">
+                <button class="btn btn-primary" onclick="loadDashboard()">Actualizar Dashboard</button>
+                <button class="btn btn-warning" onclick="showStockAlerts()">Ver Alertas de Stock</button>
+              </div>
+              <div id="alertsContainer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTOS -->
+      <div id="productos" class="tab-content">
+        <div class="content-header"><h2>Gestión de Productos</h2></div>
+        <div class="content-body">
+          <div class="card">
+            <div class="card-header">Registrar Nuevo Producto</div>
+            <div class="card-body">
+              <form id="formProducto" onsubmit="registrarProducto(event)">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="colorProd">Color *</label>
+                    <select id="colorProd" required>
+                      <option value="">Seleccione un color</option>
+                      <option value="Rosa">Rosa</option>
+                      <option value="Roja">Roja</option>
+                      <option value="Amarillo">Amarillo</option>
+                      <option value="Fuscia">Fuscia</option>
+                      <option value="Blanca">Blanca</option>
+                      <option value="Bicolor">Bicolor</option>
+                      <option value="Naranja">Naranja</option>
+                    </select>
+                  </div>
+                  <div class="form-group"><label for="nombreProd">Nombre *</label><input id="nombreProd" type="text" placeholder="Nombre de la variedad" required></div>
+                  <div class="form-group"><label for="fechaProcesoProd">Fecha de Proceso *</label><input id="fechaProcesoProd" type="date" required></div>
+                  <div class="form-group">
+                    <label for="grupoProd">Grupo *</label>
+                    <select id="grupoProd" required>
+                      <option value="">Seleccione un grupo</option>
+                      <option value="Miristemos">Miristemos</option>
+                      <option value="Multiplicación">Multiplicación</option>
+                      <option value="Raíz">Raíz</option>
+                      <option value="Bioreactor">Bioreactor</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="actions">
+                  <button type="submit" class="btn btn-success">Registrar Producto</button>
+                  <button type="button" class="btn btn-secondary" onclick="limpiarFormProducto()">Limpiar</button>
+                </div>
+              </form>
+              <div id="msgProd"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOVIMIENTOS -->
+      <div id="movimientos" class="tab-content">
+        <div class="content-header"><h2>Registro de Movimientos</h2></div>
+        <div class="content-body">
+          <div class="card">
+            <div class="card-header">Nuevo Movimiento</div>
+            <div class="card-body">
+              <form id="formMovimiento" onsubmit="registrarMovimiento(event)">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="colorMov">Color *</label>
+                    <select id="colorMov" required onchange="cargarVariedades()"><option value="">Seleccione un color</option></select>
+                  </div>
+                  <div class="form-group">
+                    <label for="nombreMov">Nombre *</label>
+                    <select id="nombreMov" required><option value="">Seleccione una variedad</option></select>
+                  </div>
+                  <div class="form-group"><label for="fechaMov">Fecha *</label><input id="fechaMov" type="date" required></div>
+                  <div class="form-group">
+                    <label for="tipoMov">Tipo de Movimiento *</label>
+                    <select id="tipoMov" required>
+                      <option value="">Seleccione un tipo</option>
+                      <option value="Ingreso">Ingreso</option>
+                      <option value="Traspaso a raíz">Traspaso a raíz</option>
+                      <option value="Traspaso a Multi">Traspaso a Multi</option>
+                      <option value="Traspaso a invernadero">Traspaso a invernadero</option>
+                    </select>
+                  </div>
+                  <div class="form-group"><label for="cantMov">Cantidad *</label><input id="cantMov" type="number" min="0.01" step="0.01" placeholder="Cantidad" required></div>
+                  <div class="form-group">
+                    <label for="usuarioMov">Usuario *</label>
+                    <select id="usuarioMov" required><option value="">Seleccione un usuario</option></select>
+                  </div>
+                  <div class="form-group"><label for="obsMov">Observaciones</label><textarea id="obsMov" placeholder="Observaciones opcionales" rows="3"></textarea></div>
+                </div>
+                <div class="actions">
+                  <button type="submit" class="btn btn-success">Guardar Movimiento</button>
+                  <button type="button" class="btn btn-secondary" onclick="limpiarFormMovimiento()">Limpiar</button>
+                </div>
+              </form>
+              <div id="msgMov"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INVENTARIO -->
+      <div id="inventario" class="tab-content">
+        <div class="content-header"><h2>Control de Inventario</h2></div>
+        <div class="content-body">
+          <div class="card">
+            <div class="card-header">Stock Actual</div>
+            <div class="card-body">
+              <div class="actions">
+                <button class="btn btn-primary" onclick="mostrarStock()">Actualizar Stock</button>
+                <button class="btn btn-success" onclick="exportarStock()">Exportar CSV</button>
+                <button class="btn btn-warning" onclick="mostrarAlertas()">Solo Alertas</button>
+              </div>
+              <div id="loading" class="loading">Cargando inventario...</div>
+              <div class="table-container"><div id="stockTable"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORTES -->
+      <div id="reportes" class="tab-content">
+        <div class="content-header"><h2>Reportes y Análisis</h2></div>
+        <div class="content-body">
+          <div class="card">
+            <div class="card-header">Historial de Movimientos</div>
+            <div class="card-body">
+              <div class="form-grid">
+                <div class="form-group"><label for="fechaDesde">Fecha Desde</label><input id="fechaDesde" type="date" required></div>
+                <div class="form-group"><label for="fechaHasta">Fecha Hasta</label><input id="fechaHasta" type="date" required></div>
+                <div class="form-group">
+                  <label for="filtroTipo">Filtrar por Tipo</label>
+                  <select id="filtroTipo">
+                    <option value="">Todos los movimientos</option>
+                    <option value="Traspaso a raíz">Traspaso a raíz</option>
+                    <option value="Traspaso a Multi">Traspaso a Multi</option>
+                    <option value="Traspaso a invernadero">Traspaso a invernadero</option>
+                  </select>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="btn btn-primary" onclick="mostrarHistorial()">Generar Reporte</button>
+                <button class="btn btn-success" onclick="exportarReporte()">Exportar Reporte</button>
+              </div>
+              <div class="table-container"><div id="historialTable"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BUSCAR -->
+      <div id="buscar" class="tab-content">
+        <div class="content-header"><h2>Búsqueda de Productos</h2></div>
+        <div class="content-body">
+          <div class="card">
+            <div class="card-header">Buscar Productos</div>
+            <div class="card-body">
+              <div class="form-grid">
+                <div class="form-group"><label for="buscarTexto">Buscar por color, nombre o grupo</label><input id="buscarTexto" type="text" placeholder="Escriba para buscar..." onkeyup="buscarEnTiempoReal()"></div>
+              </div>
+              <div class="actions">
+                <button class="btn btn-primary" onclick="buscarProducto()">Buscar</button>
+                <button class="btn btn-secondary" onclick="limpiarBusqueda()">Limpiar</button>
+              </div>
+              <div class="table-container"><div id="resultadosBusqueda"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BITÁCORA -->
+      <div id="bitacora" class="tab-content">
+        <div class="content-header"><h2>Bitácora de Usuarios</h2></div>
+        <div class="content-body">
+          <div class="card">
+            <div class="card-header">Registrar Nuevo Usuario</div>
+            <div class="card-body">
+              <form id="formUsuario" onsubmit="registrarUsuario(event)">
+                <div class="form-grid">
+                  <div class="form-group"><label for="nombreUsuario">Nombre completo *</label><input id="nombreUsuario" type="text" placeholder="Nombre del usuario" required></div>
+                  <div class="form-group"><label for="horasUsuario">Horas trabajadas (por día) *</label><input id="horasUsuario" type="number" min="0.5" step="0.5" placeholder="Ej. 8" required></div>
+                  <div class="form-group"><label for="areaUsuario">Área de trabajo *</label><input id="areaUsuario" type="text" placeholder="Ej. Producción" required></div>
+                </div>
+                <div class="actions">
+                  <button type="submit" class="btn btn-success">Registrar Usuario</button>
+                  <button type="button" class="btn btn-secondary" onclick="limpiarFormUsuario()">Limpiar</button>
+                </div>
+              </form>
+              <div id="msgUsuario"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">Mi Bitácora del Día</div>
+            <div class="card-body">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="selectUsuarioBitacora">Seleccionar Usuario</label>
+                  <select id="selectUsuarioBitacora" onchange="cargarBitacoraUsuario()"><option value="">-- Seleccione un usuario --</option></select>
+                </div>
+                <div class="form-group"><label for="fechaBitacora">Fecha</label><input id="fechaBitacora" type="date" onchange="cargarBitacoraUsuario()"></div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group"><label for="descripcionBitacora">Descripción del trabajo</label><textarea id="descripcionBitacora" rows="3" placeholder="Escribe aquí lo que hiciste hoy..."></textarea></div>
+                <div class="form-group"><label for="produccionBitacora">Producción del día (número) *</label><input id="produccionBitacora" type="number" min="0" step="1" placeholder="Ej. 850" required></div>
+              </div>
+              <div class="actions">
+                <button class="btn btn-success" onclick="guardarBitacora()">Guardar Bitácora</button>
+                <button class="btn btn-primary" onclick="cargarBitacoraUsuario()">Ver Bitácora</button>
+              </div>
+              <div id="bitacoraContainer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN -->
+      <div id="admin" class="tab-content">
+        <div class="content-header">
+          <h2>Panel de Administración</h2>
+        </div>
+
+        <div class="content-body">
+          <div class="card">
+            <div class="card-header">Acceso</div>
+            <div class="card-body">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="adminPassword">Contraseña *</label>
+                  <input id="adminPassword" type="password" placeholder="Ingrese la contraseña" required onkeydown="if(event.key==='Enter')cargarTodoAdmin()">
+                </div>
+              </div>
+              <div class="actions">
+                <button class="btn btn-primary" onclick="cargarTodoAdmin()">Ver Todo</button>
+                <button class="btn btn-secondary" onclick="cerrarSesionAdmin()">Cerrar Sesión</button>
+              </div>
+              <div id="adminMensaje"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BARRA DE BOTONES COMPACTOS -->
+        <div class="admin-toolbar">
+          <button class="btn-tool btn-tool-inv" onclick="togglePanel('panelInventario')">Cargar Inventario Inicial</button>
+          <button class="btn-tool btn-tool-reset" onclick="togglePanel('panelReset')">Reset Total</button>
+          <button class="btn-tool btn-tool-prod" onclick="togglePanel('panelProductos')">Gestionar Productos</button>
+        </div>
+
+        <!-- PANEL: CARGAR INVENTARIO INICIAL -->
+        <div id="panelInventario" class="admin-action-panel">
+          <div class="panel-header">
+            <h3>Cargar Inventario Inicial</h3>
+            <button class="panel-close" onclick="togglePanel('panelInventario')">×</button>
+          </div>
+          <div class="panel-body">
+            <div class="message info" style="margin-top: 0;">
+              <strong>ℹ️</strong> Carga inventario base sin asignarlo a ningún trabajador. No aparece en las bitácoras ni en las estadísticas de producción.
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="invColor">Color *</label>
+                <select id="invColor" required>
+                  <option value="">Seleccione un color</option>
+                  <option value="Rosa">Rosa</option>
+                  <option value="Roja">Roja</option>
+                  <option value="Amarillo">Amarillo</option>
+                  <option value="Fuscia">Fuscia</option>
+                  <option value="Blanca">Blanca</option>
+                  <option value="Bicolor">Bicolor</option>
+                  <option value="Naranja">Naranja</option>
+                </select>
+              </div>
+              <div class="form-group"><label for="invNombre">Nombre/Variedad *</label><input id="invNombre" type="text" placeholder="Ej. Celia"></div>
+              <div class="form-group"><label for="invFecha">Fecha *</label><input id="invFecha" type="date"></div>
+              <div class="form-group">
+                <label for="invGrupo">Grupo *</label>
+                <select id="invGrupo" required>
+                  <option value="">Seleccione un grupo</option>
+                  <option value="Miristemos">Miristemos</option>
+                  <option value="Multiplicación">Multiplicación</option>
+                  <option value="Raíz">Raíz</option>
+                  <option value="Bioreactor">Bioreactor</option>
+                </select>
+              </div>
+              <div class="form-group"><label for="invCantidad">Cantidad *</label><input id="invCantidad" type="number" min="1" step="1" placeholder="Ej. 500"></div>
+              <div class="form-group"><label for="invPassword">Contraseña Admin *</label><input id="invPassword" type="password" placeholder="Contraseña"></div>
+            </div>
+            <div class="actions">
+              <button class="btn btn-success" onclick="cargarInventarioInicial()">Cargar Inventario</button>
+            </div>
+            <div id="invResultado"></div>
+          </div>
+        </div>
+
+        <!-- PANEL: RESET TOTAL -->
+        <div id="panelReset" class="admin-action-panel panel-warning">
+          <div class="panel-header">
+            <h3>Reset Total del Sistema</h3>
+            <button class="panel-close" onclick="togglePanel('panelReset')">×</button>
+          </div>
+          <div class="panel-body">
+            <div class="message warning" style="margin-top: 0;">
+              <strong>⚠️ PELIGRO:</strong> Esto borra TODOS los productos, movimientos, usuarios (excepto "Sistema") y bitácoras. El sistema queda completamente limpio. <strong>Esta acción no se puede deshacer.</strong>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="resetPassword">Contraseña Admin *</label>
+                <input id="resetPassword" type="password" placeholder="Ingrese la contraseña">
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn btn-danger" onclick="ejecutarResetTotal()">Borrar TODO</button>
+            </div>
+            <div id="resetResultado"></div>
+          </div>
+        </div>
+
+        <!-- PANEL: GESTIONAR PRODUCTOS -->
+        <div id="panelProductos" class="admin-action-panel">
+          <div class="panel-header">
+            <h3>Gestionar Productos</h3>
+            <button class="panel-close" onclick="togglePanel('panelProductos')">×</button>
+          </div>
+          <div class="panel-body">
+            <div class="message info" style="margin-top: 0;">
+              <strong>ℹ️</strong> Aquí puedes editar productos mal escritos, ajustar el stock manualmente y eliminar productos sin movimientos.
+            </div>
+            <div id="gestionProductosContainer"></div>
+          </div>
+        </div>
+
+        <div class="content-body">
+          <div id="adminContainer"></div>
+        </div>
+      </div>
+
+      <!-- CONFIGURACIÓN -->
+      <div id="configuracion" class="tab-content">
+        <div class="content-header"><h2>Configuración del Sistema</h2></div>
+        <div class="content-body">
+          <div class="card">
+            <div class="card-header">Herramientas de Administración</div>
+            <div class="card-body">
+              <div class="actions">
+                <button class="btn btn-info" onclick="validarIntegridad()">Validar Integridad</button>
+                <button class="btn btn-warning" onclick="limpiarTodosFormularios()">Limpiar Formularios</button>
+              </div>
+              <div id="configResults"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL EDITAR -->
+  <div id="modalEditar" class="modal-overlay">
+    <div class="modal-box">
+      <h3>Editar Producto</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="editColor">Color</label>
+          <select id="editColor">
+            <option value="Rosa">Rosa</option>
+            <option value="Roja">Roja</option>
+            <option value="Amarillo">Amarillo</option>
+            <option value="Fuscia">Fuscia</option>
+            <option value="Blanca">Blanca</option>
+            <option value="Bicolor">Bicolor</option>
+            <option value="Naranja">Naranja</option>
+          </select>
+        </div>
+        <div class="form-group"><label for="editNombre">Variedad</label><input id="editNombre" type="text" placeholder="Nombre de la variedad"></div>
+        <div class="form-group">
+          <label for="editGrupo">Grupo</label>
+          <select id="editGrupo">
+            <option value="Miristemos">Miristemos</option>
+            <option value="Multiplicación">Multiplicación</option>
+            <option value="Raíz">Raíz</option>
+            <option value="Bioreactor">Bioreactor</option>
+          </select>
+        </div>
+        <div class="form-group"><label for="editPassword">Contraseña Admin *</label><input id="editPassword" type="password" placeholder="Contraseña"></div>
+      </div>
+      <div id="editResultado"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="cerrarModal('modalEditar')">Cancelar</button>
+        <button class="btn btn-success" onclick="guardarEdicion()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL AJUSTAR -->
+  <div id="modalAjustar" class="modal-overlay">
+    <div class="modal-box">
+      <h3>Ajustar Stock</h3>
+      <p style="color:#495057; margin-bottom: 15px;">Producto: <strong id="ajustarProductoNombre"></strong></p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="ajustarCantidad">Cantidad (positiva o negativa) *</label>
+          <input id="ajustarCantidad" type="number" step="1" placeholder="Ej. 50 o -30">
+        </div>
+        <div class="form-group">
+          <label for="ajustarMotivo">Motivo *</label>
+          <input id="ajustarMotivo" type="text" placeholder="Ej. Conteo físico, pérdida, etc.">
+        </div>
+        <div class="form-group">
+          <label for="ajustarPassword">Contraseña Admin *</label>
+          <input id="ajustarPassword" type="password" placeholder="Contraseña">
+        </div>
+      </div>
+      <div id="ajustarResultado"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="cerrarModal('modalAjustar')">Cancelar</button>
+        <button class="btn btn-success" onclick="guardarAjuste()">Aplicar Ajuste</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentTab = 'dashboard';
+    let searchTimeout;
+    let usuarios = [];
+    let chartBarras = null;
+    let chartDona = null;
+    let chartTendencia = null;
+    let productoEditandoId = null;
+    let productoAjustandoId = null;
+
+    function callApi(endpoint, method = 'GET', body = null) {
+        const options = { method, headers: { 'Content-Type': 'application/json' } };
+        if (body) options.body = JSON.stringify(body);
+        return fetch(`/api${endpoint}`, options)
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            });
+    }
+
+    function initializeApp() {
+        setDefaultDates();
+        loadDashboard();
+        cargarColores();
+        cargarUsuarios();
+        cargarUsuariosBitacora();
+        showTab('dashboard');
+    }
+
+    function setDefaultDates() {
+        const today = new Date();
+        const monthAgo = new Date();
+        monthAgo.setMonth(monthAgo.getMonth() - 1);
+        document.getElementById("fechaMov").valueAsDate = today;
+        document.getElementById("fechaProcesoProd").valueAsDate = today;
+        document.getElementById("fechaDesde").valueAsDate = monthAgo;
+        document.getElementById("fechaHasta").valueAsDate = today;
+        document.getElementById("fechaBitacora").valueAsDate = today;
+        if (document.getElementById("invFecha")) document.getElementById("invFecha").valueAsDate = today;
+    }
+
+    function showTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        const links = document.querySelectorAll('.nav-link');
+        for (let link of links) {
+            if (link.textContent.trim().toLowerCase().includes(tabName.toLowerCase())) {
+                link.classList.add('active');
+                break;
+            }
+        }
+        currentTab = tabName;
+        if (tabName === 'dashboard') loadDashboard();
+        if (tabName === 'inventario') mostrarStock();
+        if (tabName === 'movimientos') { cargarColores(); cargarUsuarios(); }
+        if (tabName === 'bitacora') cargarUsuariosBitacora();
+    }
+
+    function loadDashboard() {
+        callApi('/resumen').then(data => {
+            document.getElementById('statsGrid').innerHTML = `
+                <div class="stat-card"><div class="stat-value">${data.totalProductos}</div><div class="stat-label">Total Productos</div></div>
+                <div class="stat-card"><div class="stat-value">${data.totalMovimientos}</div><div class="stat-label">Total Movimientos</div></div>
+                <div class="stat-card"><div class="stat-value">${data.sinStock}</div><div class="stat-label">Sin Stock</div></div>
+                <div class="stat-card"><div class="stat-value">${data.stockBajo}</div><div class="stat-label">Stock Bajo</div></div>
+            `;
+        }).catch(() => showMessage('statsGrid', 'Error al cargar dashboard', 'error'));
+    }
+
+    function registrarProducto(event) {
+        event.preventDefault();
+        const producto = {
+            color: document.getElementById('colorProd').value,
+            nombre: document.getElementById('nombreProd').value.trim(),
+            fechaProceso: document.getElementById('fechaProcesoProd').value,
+            grupo: document.getElementById('grupoProd').value
+        };
+        if (!producto.color || !producto.nombre || !producto.fechaProceso || !producto.grupo) return showMessage('msgProd', 'Todos los campos son obligatorios', 'error');
+        callApi('/productos', 'POST', producto).then(mensaje => {
+            showMessage('msgProd', mensaje, 'success');
+            document.getElementById('formProducto').reset();
+            document.getElementById('fechaProcesoProd').valueAsDate = new Date();
+            cargarColores();
+        }).catch(error => showMessage('msgProd', 'Error: ' + error, 'error'));
+    }
+
+    function cargarUsuarios() {
+        callApi('/usuarios').then(data => {
+            usuarios = data;
+            const select = document.getElementById('usuarioMov');
+            select.innerHTML = '<option value="">Seleccione un usuario</option>';
+            data.forEach(u => select.innerHTML += `<option value="${u._id}">${u.nombre} (${u.area})</option>`);
+        }).catch(() => {
+            document.getElementById('usuarioMov').innerHTML = '<option value="">No hay usuarios registrados</option>';
+        });
+    }
+
+    function cargarColores() {
+        callApi('/colores').then(colores => {
+            const select = document.getElementById('colorMov');
+            select.innerHTML = '<option value="">Seleccione un color</option>';
+            colores.forEach(c => select.innerHTML += `<option value="${c}">${c}</option>`);
+            if (select.value) cargarVariedades();
+        }).catch(() => {});
+    }
+
+    function cargarVariedades() {
+        const color = document.getElementById('colorMov').value;
+        const select = document.getElementById('nombreMov');
+        select.innerHTML = '<option value="">Seleccione una variedad</option>';
+        if (!color) return;
+        callApi(`/variedades?color=${encodeURIComponent(color)}`).then(variedades => {
+            variedades.forEach(n => select.innerHTML += `<option value="${n}">${n}</option>`);
+        }).catch(() => {});
+    }
+
+    function registrarMovimiento(event) {
+        event.preventDefault();
+        const movimiento = {
+            color: document.getElementById('colorMov').value,
+            nombre: document.getElementById('nombreMov').value,
+            fecha: document.getElementById('fechaMov').value,
+            tipo: document.getElementById('tipoMov').value,
+            cantidad: parseFloat(document.getElementById('cantMov').value) || 0,
+            usuarioId: document.getElementById('usuarioMov').value,
+            observaciones: document.getElementById('obsMov').value.trim()
+        };
+        if (!movimiento.color || !movimiento.nombre || !movimiento.fecha || !movimiento.tipo || !movimiento.cantidad || !movimiento.usuarioId) return showMessage('msgMov', 'Todos los campos son obligatorios', 'error');
+        if (movimiento.cantidad <= 0) return showMessage('msgMov', 'La cantidad debe ser mayor a 0', 'error');
+        callApi('/movimientos', 'POST', movimiento).then(mensaje => {
+            showMessage('msgMov', mensaje, 'success');
+            document.getElementById('formMovimiento').reset();
+            document.getElementById('fechaMov').valueAsDate = new Date();
+            cargarColores();
+            cargarUsuarios();
+        }).catch(error => showMessage('msgMov', 'Error: ' + error, 'error'));
+    }
+
+    function registrarUsuario(event) {
+        event.preventDefault();
+        const nombre = document.getElementById('nombreUsuario').value.trim();
+        const horasTrabajadas = parseFloat(document.getElementById('horasUsuario').value) || 0;
+        const area = document.getElementById('areaUsuario').value.trim();
+        if (!nombre || !horasTrabajadas || !area) return showMessage('msgUsuario', 'Todos los campos son obligatorios', 'error');
+        if (horasTrabajadas <= 0) return showMessage('msgUsuario', 'Las horas deben ser mayores a 0', 'error');
+        fetch('/api/usuarios', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, horasTrabajadas, area })
+        }).then(res => {
+            if (!res.ok) return res.text().then(text => { throw new Error(text) });
+            return res.json();
+        }).then(data => {
+            showMessage('msgUsuario', data.mensaje || 'Usuario registrado correctamente', 'success');
+            document.getElementById('formUsuario').reset();
+            cargarUsuarios();
+            cargarUsuariosBitacora();
+        }).catch(error => showMessage('msgUsuario', 'Error: ' + error.message, 'error'));
+    }
+
+    function cargarUsuariosBitacora() {
+        callApi('/usuarios').then(data => {
+            const select = document.getElementById('selectUsuarioBitacora');
+            select.innerHTML = '<option value="">-- Seleccione un usuario --</option>';
+            data.forEach(u => select.innerHTML += `<option value="${u._id}">${u.nombre}</option>`);
+        }).catch(() => {});
+    }
+
+    function cargarBitacoraUsuario() {
+        const usuarioId = document.getElementById('selectUsuarioBitacora').value;
+        const fecha = document.getElementById('fechaBitacora').value;
+        if (!usuarioId) return showMessage('bitacoraContainer', 'Seleccione un usuario', 'warning');
+        callApi(`/bitacora/${usuarioId}?fecha=${fecha || ''}`).then(data => {
+            const container = document.getElementById('bitacoraContainer');
+            if (!data) {
+                container.innerHTML = `<div class="message warning">No hay bitácora para este usuario en esta fecha.</div>`;
+                document.getElementById('descripcionBitacora').value = '';
+                document.getElementById('produccionBitacora').value = '';
+                return;
+            }
+            let html = `<h4>Bitácora de ${data.usuarioId ? data.usuarioId.nombre : 'Usuario'}</h4>`;
+            html += `<p><strong>Fecha:</strong> ${new Date(data.fecha).toLocaleDateString('es-ES')}</p>`;
+            html += `<p><strong>Horas trabajadas:</strong> ${data.horasTrabajadas}</p>`;
+            html += `<p><strong>Descripción:</strong> ${data.descripcion || 'No registrada'}</p>`;
+            html += `<p><strong>Producción:</strong> ${data.produccion || 0}</p>`;
+            if (data.movimientos && data.movimientos.length > 0) {
+                html += `<table><thead><tr><th>Producto</th><th>Tipo</th><th>Cantidad</th><th>Stock resultante</th></tr></thead><tbody>`;
+                data.movimientos.forEach(m => {
+                    html += `<tr><td>${m.color} - ${m.nombreVariedad}</td><td>${m.tipo}</td><td>${m.cantidad}</td><td>${m.stockResultante}</td></tr>`;
+                });
+                html += `</tbody></table>`;
+            } else {
+                html += `<p><em>Sin movimientos registrados en esta fecha.</em></p>`;
+            }
+            container.innerHTML = html;
+            document.getElementById('descripcionBitacora').value = data.descripcion || '';
+            document.getElementById('produccionBitacora').value = data.produccion || '';
+        }).catch(() => showMessage('bitacoraContainer', 'Error al cargar bitácora', 'error'));
+    }
+
+    function guardarBitacora() {
+        const usuarioId = document.getElementById('selectUsuarioBitacora').value;
+        const descripcion = document.getElementById('descripcionBitacora').value.trim();
+        const produccion = parseFloat(document.getElementById('produccionBitacora').value) || 0;
+        const fecha = document.getElementById('fechaBitacora').value;
+        if (!usuarioId) return showMessage('bitacoraContainer', 'Seleccione un usuario primero', 'error');
+        const body = {};
+        if (descripcion) body.descripcion = descripcion;
+        if (produccion > 0) body.produccion = produccion;
+        if (Object.keys(body).length === 0) return showMessage('bitacoraContainer', 'Ingrese al menos una descripción o producción', 'error');
+        fetch(`/api/bitacora/${usuarioId}?fecha=${fecha || ''}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        }).then(res => {
+            if (!res.ok) throw new Error('Error al guardar');
+            return res.json();
+        }).then(data => {
+            showMessage('bitacoraContainer', data.mensaje || 'Bitácora guardada correctamente', 'success');
+            cargarBitacoraUsuario();
+        }).catch(error => showMessage('bitacoraContainer', 'Error: ' + error.message, 'error'));
+    }
+
+    // ========== ADMIN ==========
+    function togglePanel(panelId) {
+        const panel = document.getElementById(panelId);
+        const otros = document.querySelectorAll('.admin-action-panel');
+        otros.forEach(p => { if (p.id !== panelId) p.classList.remove('visible'); });
+        panel.classList.toggle('visible');
+    }
+
+    function cargarTodoAdmin() {
+        const password = document.getElementById('adminPassword').value;
+        const container = document.getElementById('adminContainer');
+        const msg = document.getElementById('adminMensaje');
+
+        if (!password) return showMessage('adminMensaje', 'Ingrese la contraseña', 'error');
+
+        msg.innerHTML = '';
+        container.innerHTML = '<div class="loading" style="display:block;">Cargando panel completo...</div>';
+
+        if (chartBarras) { chartBarras.destroy(); chartBarras = null; }
+        if (chartDona) { chartDona.destroy(); chartDona = null; }
+        if (chartTendencia) { chartTendencia.destroy(); chartTendencia = null; }
+
+        fetch(`/api/admin/todo?password=${encodeURIComponent(password)}`)
+            .then(res => {
+                if (res.status === 401) throw new Error('Contraseña incorrecta');
+                if (!res.ok) throw new Error('Error al cargar el panel');
+                return res.json();
+            })
+            .then(data => {
+                renderAdminCompleto(data);
+            })
+            .catch(error => {
+                container.innerHTML = `<div class="message error">Error: ${error.message}</div>`;
+            });
+    }
+
+    function cerrarSesionAdmin() {
+        const passInput = document.getElementById('adminPassword');
+        if (passInput) passInput.value = '';
+        document.getElementById('adminContainer').innerHTML = '';
+        const msg = document.getElementById('adminMensaje');
+        if (msg) msg.innerHTML = '';
+        document.querySelectorAll('.admin-action-panel').forEach(p => p.classList.remove('visible'));
+        if (chartBarras) { chartBarras.destroy(); chartBarras = null; }
+        if (chartDona) { chartDona.destroy(); chartDona = null; }
+        if (chartTendencia) { chartTendencia.destroy(); chartTendencia = null; }
+    }
+
+    function renderAdminCompleto(data) {
+        const container = document.getElementById('adminContainer');
+        let html = '';
+
+        // === 1. GRÁFICAS (primero) ===
+        if (data.datosBarras) {
+            const k = data.kpis;
+            html += `
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h4>Producción por Trabajador (último día: ${k.fechaMasReciente || 'N/A'})</h4>
+                        <div class="chart-container"><canvas id="chartBarras"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h4>Distribución por Nivel (todas las bitácoras)</h4>
+                        <div class="chart-container"><canvas id="chartDona"></canvas></div>
+                    </div>
+                </div>
+                <div class="chart-card" style="margin-bottom: 25px;">
+                    <h4>Tendencia de Producción (últimos 7 días)</h4>
+                    <div class="chart-container" style="height: 300px;"><canvas id="chartTendencia"></canvas></div>
+                </div>
+            `;
+        }
+
+        // === 2. KPIs ===
+        if (data.kpis) {
+            const k = data.kpis;
+            html += `
+                <div class="stats-grid">
+                    <div class="stat-card kpi-produccion">
+                        <div class="stat-value">${k.totalProduccion}</div>
+                        <div class="stat-label">Producción Total (mostradas)</div>
+                    </div>
+                    <div class="stat-card kpi-promedio">
+                        <div class="stat-value">${k.promedio}</div>
+                        <div class="stat-label">Producción Promedio</div>
+                    </div>
+                    <div class="stat-card kpi-mejor">
+                        <div class="stat-value">${k.kpisHoy.mejor ? k.kpisHoy.mejor.produccion : '-'}</div>
+                        <div class="stat-label">Mejor del día: ${k.kpisHoy.mejor ? k.kpisHoy.mejor.usuario : '-'}</div>
+                    </div>
+                    <div class="stat-card kpi-peor">
+                        <div class="stat-value">${k.kpisHoy.menor ? k.kpisHoy.menor.produccion : '-'}</div>
+                        <div class="stat-label">Menor del día: ${k.kpisHoy.menor ? k.kpisHoy.menor.usuario : '-'}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // === 3. BITÁCORAS (más recientes arriba) ===
+        if (data.bitacoras && data.bitacoras.length > 0) {
+            html += `<div class="card"><div class="card-header">Bitácoras (más reciente arriba)</div><div class="card-body">`;
+            data.bitacoras.forEach(b => {
+                html += `
+                    <div class="bitacora-item ${b.nivelClass}">
+                        <div class="bitacora-header">
+                            <div>
+                                <span class="usuario">${b.usuario}</span>
+                                <span style="color:#6c757d; font-size:0.85rem;"> (${b.area})</span>
+                            </div>
+                            <span class="fecha">${b.fechaStr}</span>
+                        </div>
+                        <div class="bitacora-info">
+                            <span><strong>Producción:</strong> ${b.produccion}</span>
+                            <span><strong>Horas:</strong> ${b.horas}</span>
+                            <span><strong>Movimientos:</strong> ${b.movimientos}</span>
+                            <span class="nivel-badge ${b.nivelClass}">${b.nivel}</span>
+                        </div>
+                        ${b.descripcion ? `<div class="bitacora-descripcion">"${b.descripcion}"</div>` : ''}
+                    </div>
+                `;
+            });
+            html += `</div></div>`;
+        } else {
+            html += `<div class="message warning">No hay bitácoras registradas todavía.</div>`;
+        }
+
+        container.innerHTML = html;
+
+        // Renderizar gráficas
+        if (data.datosBarras) {
+            const d = data.datosBarras;
+            const ctxBarras = document.getElementById('chartBarras');
+            if (ctxBarras) {
+                chartBarras = new Chart(ctxBarras.getContext('2d'), {
+                    type: 'bar',
+                    data: { labels: d.labels, datasets: [{ label: 'Producción', data: d.producciones, backgroundColor: d.colores, borderRadius: 6 }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+                });
+            }
+            const niveles = ['Crítico', 'Normal', 'Óptimo', 'Mejor'];
+            const valoresNiveles = niveles.map(n => data.conteoNiveles[n] || 0);
+            const ctxDona = document.getElementById('chartDona');
+            if (ctxDona) {
+                chartDona = new Chart(ctxDona.getContext('2d'), {
+                    type: 'doughnut',
+                    data: { labels: niveles, datasets: [{ data: valoresNiveles, backgroundColor: ['#dc3545', '#ffc107', '#28a745', '#5DADE2'], borderWidth: 2, borderColor: '#fff' }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                });
+            }
+            const ctxTend = document.getElementById('chartTendencia');
+            if (ctxTend) {
+                chartTendencia = new Chart(ctxTend.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: data.tendencia.map(t => t.fecha),
+                        datasets: [
+                            { label: 'Producción Total', data: data.tendencia.map(t => t.total), borderColor: '#2E86AB', backgroundColor: 'rgba(46, 134, 171, 0.15)', fill: true, tension: 0.35, pointBackgroundColor: '#2E86AB', pointRadius: 5, borderWidth: 3 },
+                            { label: 'Promedio', data: data.tendencia.map(t => t.promedio), borderColor: '#28a745', backgroundColor: 'rgba(40, 167, 69, 0.1)', fill: false, tension: 0.35, pointBackgroundColor: '#28a745', pointRadius: 4, borderWidth: 2, borderDash: [5, 5] }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+                });
+            }
+        }
+
+        // Cargar la tabla de productos en el panel de "Gestionar Productos"
+        renderGestionProductos(data.productos || []);
+    }
+
+    function renderGestionProductos(productos) {
+        const cont = document.getElementById('gestionProductosContainer');
+        if (!productos || productos.length === 0) {
+            cont.innerHTML = '<div class="message warning">No hay productos registrados.</div>';
+            return;
+        }
+        let html = `<div class="table-container"><table>
+            <thead><tr><th>Color</th><th>Variedad</th><th>Grupo</th><th>Stock</th><th>Movs.</th><th>Acciones</th></tr></thead>
+            <tbody>`;
+        productos.forEach(p => {
+            const nombreEscapado = p.nombre.replace(/"/g, '&quot;');
+            const nombreCompleto = (p.color + ' - ' + p.nombre).replace(/"/g, '&quot;');
+            html += `<tr>
+                <td>${p.color}</td>
+                <td>${p.nombre}</td>
+                <td>${p.grupo}</td>
+                <td>${p.stock}</td>
+                <td>${p.numMovimientos}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" onclick='abrirModalEditar("${p._id}", "${p.color}", "${nombreEscapado}", "${p.grupo}")'>Editar</button>
+                    <button class="btn btn-warning btn-sm" onclick='abrirModalAjustar("${p._id}", "${nombreCompleto}")'>Ajustar</button>
+                    <button class="btn btn-danger btn-sm" onclick='eliminarProducto("${p._id}", "${nombreCompleto}", ${p.numMovimientos})'>Eliminar</button>
+                </td>
+            </tr>`;
+        });
+        html += `</tbody></table></div>`;
+        cont.innerHTML = html;
+    }
+
+    // ---------- MODALES ----------
+    function cerrarModal(id) { document.getElementById(id).classList.remove('visible'); }
+
+    function abrirModalEditar(id, color, nombre, grupo) {
+        productoEditandoId = id;
+        document.getElementById('editColor').value = color;
+        document.getElementById('editNombre').value = nombre;
+        document.getElementById('editGrupo').value = grupo;
+        document.getElementById('editPassword').value = '';
+        document.getElementById('editResultado').innerHTML = '';
+        document.getElementById('modalEditar').classList.add('visible');
+    }
+
+    function guardarEdicion() {
+        const password = document.getElementById('editPassword').value;
+        const nuevoColor = document.getElementById('editColor').value;
+        const nuevoNombre = document.getElementById('editNombre').value.trim();
+        const nuevoGrupo = document.getElementById('editGrupo').value;
+
+        if (!password) return showMessage('editResultado', 'Ingrese la contraseña', 'error');
+        if (!nuevoNombre) return showMessage('editResultado', 'El nombre es obligatorio', 'error');
+
+        fetch('/api/admin/editar-producto', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password, productoId: productoEditandoId, nuevoColor, nuevoNombre, nuevoGrupo })
+        })
+        .then(res => {
+            if (res.status === 401) throw new Error('Contraseña incorrecta');
+            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error al editar'); });
+            return res.json();
+        })
+        .then(data => {
+            showMessage('editResultado', data.mensaje, 'success');
+            setTimeout(() => { cerrarModal('modalEditar'); cargarTodoAdmin(); }, 1200);
+        })
+        .catch(error => showMessage('editResultado', error.message, 'error'));
+    }
+
+    function abrirModalAjustar(id, nombreCompleto) {
+        productoAjustandoId = id;
+        document.getElementById('ajustarProductoNombre').textContent = nombreCompleto;
+        document.getElementById('ajustarCantidad').value = '';
+        document.getElementById('ajustarMotivo').value = '';
+        document.getElementById('ajustarPassword').value = '';
+        document.getElementById('ajustarResultado').innerHTML = '';
+        document.getElementById('modalAjustar').classList.add('visible');
+    }
+
+    function guardarAjuste() {
+        const password = document.getElementById('ajustarPassword').value;
+        const cantidad = parseFloat(document.getElementById('ajustarCantidad').value);
+        const motivo = document.getElementById('ajustarMotivo').value.trim();
+
+        if (!password) return showMessage('ajustarResultado', 'Ingrese la contraseña', 'error');
+        if (isNaN(cantidad) || cantidad === 0) return showMessage('ajustarResultado', 'La cantidad debe ser diferente de 0', 'error');
+        if (!motivo) return showMessage('ajustarResultado', 'El motivo es obligatorio', 'error');
+
+        fetch('/api/admin/ajustar-stock', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password, productoId: productoAjustandoId, cantidad, motivo })
+        })
+        .then(res => {
+            if (res.status === 401) throw new Error('Contraseña incorrecta');
+            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error al ajustar'); });
+            return res.json();
+        })
+        .then(data => {
+            showMessage('ajustarResultado', data.mensaje, 'success');
+            setTimeout(() => { cerrarModal('modalAjustar'); cargarTodoAdmin(); }, 1200);
+        })
+        .catch(error => showMessage('ajustarResultado', error.message, 'error'));
+    }
+
+    function eliminarProducto(id, nombre, numMovs) {
+        if (numMovs > 0) {
+            alert(`No se puede eliminar "${nombre}" porque tiene ${numMovs} movimiento(s) asociados.\n\nSolo se puede editar.`);
+            return;
+        }
+        const password = prompt(`Vas a eliminar "${nombre}".\n\nEscribe la contraseña de admin para confirmar:`);
+        if (!password) return;
+        if (!confirm(`¿Confirmas la eliminación de "${nombre}"? Esta acción no se puede deshacer.`)) return;
+
+        fetch('/api/admin/eliminar-producto', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password, productoId: id })
+        })
+        .then(res => {
+            if (res.status === 401) throw new Error('Contraseña incorrecta');
+            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error al eliminar'); });
+            return res.json();
+        })
+        .then(data => {
+            alert(data.mensaje);
+            cargarTodoAdmin();
+        })
+        .catch(error => alert(error.message));
+    }
+
+    // ========== INVENTARIO INICIAL ==========
+    function cargarInventarioInicial() {
+        const password = document.getElementById('invPassword').value;
+        const color = document.getElementById('invColor').value;
+        const nombre = document.getElementById('invNombre').value.trim();
+        const fechaProceso = document.getElementById('invFecha').value;
+        const grupo = document.getElementById('invGrupo').value;
+        const cantidad = parseFloat(document.getElementById('invCantidad').value) || 0;
+
+        if (!password) return showMessage('invResultado', 'Ingrese la contraseña de admin', 'error');
+        if (!color || !nombre || !fechaProceso || !grupo || cantidad <= 0) return showMessage('invResultado', 'Todos los campos son obligatorios y cantidad > 0', 'error');
+
+        document.getElementById('invResultado').innerHTML = '<div class="loading" style="display:block;">Cargando inventario...</div>';
+
+        fetch('/api/admin/inventario-inicial', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password, color, nombre, fechaProceso, grupo, cantidad })
+        })
+        .then(res => {
+            if (res.status === 401) throw new Error('Contraseña incorrecta');
+            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error al cargar'); });
+            return res.json();
+        })
+        .then(data => {
+            document.getElementById('invResultado').innerHTML = `<div class="message success">${data.mensaje}</div>`;
+            document.getElementById('invNombre').value = '';
+            document.getElementById('invCantidad').value = '';
+            cargarColores();
+        })
+        .catch(error => {
+            document.getElementById('invResultado').innerHTML = `<div class="message error">${error.message}</div>`;
+        });
+    }
+
+    // ========== RESET TOTAL ==========
+    function ejecutarResetTotal() {
+        const password = document.getElementById('resetPassword').value;
+        const resultados = document.getElementById('resetResultado');
+
+        if (!password) return showMessage('resetResultado', 'Ingrese la contraseña de admin', 'error');
+
+        if (!confirm('ATENCIÓN: Vas a BORRAR TODO el sistema.\n\nEsto elimina:\n- Todos los productos\n- Todos los movimientos\n- Todos los usuarios (excepto "Sistema")\n- Todas las bitácoras\n\n¿Estás seguro?')) return;
+        if (!confirm('ÚLTIMA ADVERTENCIA\n\nEsta acción NO se puede deshacer.\n\n¿Confirmas el borrado TOTAL del sistema?')) return;
+
+        resultados.innerHTML = '<div class="loading" style="display:block;">Borrando TODO...</div>';
+
+        fetch('/api/admin/reset-total', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+        })
+        .then(res => {
+            if (res.status === 401) throw new Error('Contraseña incorrecta');
+            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error al hacer reset'); });
+            return res.json();
+        })
+        .then(data => {
+            let html = `<div class="message success"><strong>Sistema reseteado:</strong><ul>`;
+            for (const [col, count] of Object.entries(data.resultados)) {
+                html += `<li>${col}: <strong>${count}</strong> registros borrados</li>`;
+            }
+            html += `</ul></div>`;
+            resultados.innerHTML = html;
+
+            document.getElementById('resetPassword').value = '';
+            cargarUsuarios();
+            cargarColores();
+            cargarUsuariosBitacora();
+            loadDashboard();
+
+            document.getElementById('adminContainer').innerHTML = '<div class="message info">El sistema fue reseteado. Pulsa "Ver Todo" para ver el estado actual.</div>';
+            if (chartBarras) { chartBarras.destroy(); chartBarras = null; }
+            if (chartDona) { chartDona.destroy(); chartDona = null; }
+            if (chartTendencia) { chartTendencia.destroy(); chartTendencia = null; }
+        })
+        .catch(error => {
+            resultados.innerHTML = `<div class="message error">${error.message}</div>`;
+        });
+    }
+
+    // ---------- BUSCAR ----------
+    function buscarProducto() {
+        const texto = document.getElementById('buscarTexto').value.trim();
+        if (!texto) return showMessage('resultadosBusqueda', 'Ingrese un texto para buscar', 'warning');
+        callApi(`/buscar?q=${encodeURIComponent(texto)}`).then(data => displaySearchResults(data)).catch(() => showMessage('resultadosBusqueda', 'Error en la búsqueda', 'error'));
+    }
+    function buscarEnTiempoReal() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const texto = document.getElementById('buscarTexto').value.trim();
+            if (texto.length >= 2) buscarProducto();
+            else if (texto.length === 0) document.getElementById('resultadosBusqueda').innerHTML = '';
+        }, 300);
+    }
+    function displaySearchResults(data) {
+        const container = document.getElementById('resultadosBusqueda');
+        if (data.length === 0) return container.innerHTML = '<div class="message warning">No se encontraron productos</div>';
+        let html = `<table><thead><tr><th>Color</th><th>Nombre</th><th>Fecha Proceso</th><th>Grupo</th><th>Stock</th></tr></thead><tbody>`;
+        data.forEach(p => {
+            const fecha = p.fechaProceso ? new Date(p.fechaProceso).toLocaleDateString('es-ES') : 'N/A';
+            html += `<tr><td>${p.color}</td><td>${p.nombre}</td><td>${fecha}</td><td>${p.grupo}</td><td>${p.stock}</td></tr>`;
+        });
+        html += '</tbody></table>';
+        container.innerHTML = html;
+    }
+
+    function mostrarStock() {
+        const loading = document.getElementById('loading');
+        const container = document.getElementById('stockTable');
+        loading.style.display = 'block';
+        callApi('/stock').then(data => {
+            loading.style.display = 'none';
+            if (data.length === 0) return container.innerHTML = '<div class="message warning">No hay productos registrados</div>';
+            let html = `<table><thead><tr><th>Color</th><th>Nombre</th><th>Fecha Proceso</th><th>Grupo</th><th>Stock</th><th>Estado</th></tr></thead><tbody>`;
+            data.forEach(p => {
+                const fecha = p.fechaProceso ? new Date(p.fechaProceso).toLocaleDateString('es-ES') : 'N/A';
+                let estado = 'Normal', cls = 'status-normal';
+                if (p.cantidad <= 0) { estado = 'Sin Stock'; cls = 'status-zero'; }
+                else if (p.cantidad <= p.stockMin && p.stockMin > 0) { estado = 'Stock Bajo'; cls = 'status-low'; }
+                html += `<tr class="${cls}"><td>${p.color}</td><td>${p.nombre}</td><td>${fecha}</td><td>${p.grupo}</td><td>${p.cantidad}</td><td>${estado}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }).catch(() => { loading.style.display = 'none'; showMessage('stockTable', 'Error al cargar stock', 'error'); });
+    }
+
+    function mostrarAlertas() {
+        const loading = document.getElementById('loading');
+        const container = document.getElementById('stockTable');
+        loading.style.display = 'block';
+        callApi('/stock').then(data => {
+            loading.style.display = 'none';
+            const alertas = data.filter(p => p.cantidad <= 0 || (p.cantidad <= p.stockMin && p.stockMin > 0));
+            if (alertas.length === 0) return container.innerHTML = '<div class="message success">No hay productos con alertas</div>';
+            let html = `<table><thead><tr><th>Color</th><th>Nombre</th><th>Stock</th><th>Estado</th></tr></thead><tbody>`;
+            alertas.forEach(p => {
+                const estado = p.cantidad <= 0 ? 'Sin Stock' : 'Stock Bajo';
+                const cls = p.cantidad <= 0 ? 'status-zero' : 'status-low';
+                html += `<tr class="${cls}"><td>${p.color}</td><td>${p.nombre}</td><td>${p.cantidad}</td><td>${estado}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }).catch(() => { loading.style.display = 'none'; showMessage('stockTable', 'Error al cargar alertas', 'error'); });
+    }
+
+    function showStockAlerts() {
+        callApi('/stock').then(data => {
+            const alertas = data.filter(p => p.cantidad <= 0 || (p.cantidad <= p.stockMin && p.stockMin > 0));
+            const container = document.getElementById('alertsContainer');
+            if (alertas.length === 0) return container.innerHTML = '<div class="message success">No hay productos con alertas</div>';
+            let html = `<div class="message warning"><strong>${alertas.length} producto(s) requieren atención</strong></div><table><thead><tr><th>Color</th><th>Nombre</th><th>Stock</th><th>Estado</th></tr></thead><tbody>`;
+            alertas.forEach(p => {
+                const estado = p.cantidad <= 0 ? 'Sin Stock' : 'Stock Bajo';
+                const cls = p.cantidad <= 0 ? 'status-zero' : 'status-low';
+                html += `<tr class="${cls}"><td>${p.color}</td><td>${p.nombre}</td><td>${p.cantidad}</td><td>${estado}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }).catch(() => showMessage('alertsContainer', 'Error al cargar alertas', 'error'));
+    }
+
+    function mostrarHistorial() {
+        const desde = document.getElementById('fechaDesde').value;
+        const hasta = document.getElementById('fechaHasta').value;
+        const tipo = document.getElementById('filtroTipo').value;
+        if (!desde || !hasta) return showMessage('historialTable', 'Seleccione las fechas', 'warning');
+        callApi(`/historial?desde=${desde}&hasta=${hasta}&tipo=${encodeURIComponent(tipo)}`).then(data => {
+            const container = document.getElementById('historialTable');
+            if (data.length === 0) return container.innerHTML = '<div class="message warning">No hay movimientos en el período seleccionado</div>';
+            let html = `<div class="message success">Se encontraron ${data.length} movimientos</div><table><thead><tr><th>Fecha</th><th>Color</th><th>Nombre</th><th>Tipo</th><th>Cantidad</th><th>Usuario</th><th>Observaciones</th></tr></thead><tbody>`;
+            data.forEach(m => {
+                html += `<tr><td>${m.fecha}</td><td>${m.color}</td><td>${m.nombre}</td><td>${m.tipo}</td><td>${m.cantidad}</td><td>${m.usuario}</td><td>${m.observaciones || 'N/A'}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }).catch(() => showMessage('historialTable', 'Error al cargar historial', 'error'));
+    }
+
+    function exportarStock() {
+        window.open('/api/exportar-stock', '_blank');
+        showMessage('stockTable', 'Exportando stock...', 'success');
+    }
+    function exportarReporte() {
+        const desde = document.getElementById('fechaDesde').value;
+        const hasta = document.getElementById('fechaHasta').value;
+        if (!desde || !hasta) return showMessage('historialTable', 'Seleccione las fechas', 'warning');
+        window.open(`/api/historial?desde=${desde}&hasta=${hasta}&tipo=${document.getElementById('filtroTipo').value}&format=csv`, '_blank');
+        showMessage('historialTable', 'Exportando reporte...', 'success');
+    }
+
+    function validarIntegridad() {
+        callApi('/validar').then(data => {
+            let html = '<h4>Validación de Integridad</h4>';
+            if (data.errores.length === 1 && data.errores[0] === 'Todos los datos están correctos.') {
+                html += '<div class="message success">Todos los datos están correctos</div>';
+            } else {
+                html += '<div class="message error"><strong>Errores encontrados:</strong><ul>' + data.errores.map(e => `<li>${e}</li>`).join('') + '</ul></div>';
+            }
+            document.getElementById('configResults').innerHTML = html;
+        }).catch(() => showMessage('configResults', 'Error al validar', 'error'));
+    }
+
+    function limpiarFormProducto() {
+        document.getElementById('formProducto').reset();
+        document.getElementById('fechaProcesoProd').valueAsDate = new Date();
+        document.getElementById('msgProd').innerHTML = '';
+    }
+    function limpiarFormMovimiento() {
+        document.getElementById('formMovimiento').reset();
+        document.getElementById('fechaMov').valueAsDate = new Date();
+        document.getElementById('msgMov').innerHTML = '';
+        cargarColores();
+        cargarUsuarios();
+    }
+    function limpiarFormUsuario() {
+        document.getElementById('formUsuario').reset();
+        document.getElementById('msgUsuario').innerHTML = '';
+    }
+    function limpiarBusqueda() {
+        document.getElementById('buscarTexto').value = '';
+        document.getElementById('resultadosBusqueda').innerHTML = '';
+    }
+    function limpiarTodosFormularios() {
+        limpiarFormProducto();
+        limpiarFormMovimiento();
+        limpiarFormUsuario();
+        limpiarBusqueda();
+        document.getElementById('historialTable').innerHTML = '';
+        document.getElementById('configResults').innerHTML = '';
+        document.getElementById('bitacoraContainer').innerHTML = '';
+        document.getElementById('adminContainer').innerHTML = '';
+        document.getElementById('resetResultado').innerHTML = '';
+        document.getElementById('invResultado').innerHTML = '';
+    }
+
+    function showMessage(containerId, message, type) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const cls = 'message ' + (type || 'success');
+        container.innerHTML = `<div class="${cls}">${message}</div>`;
+        if (type === 'success') setTimeout(() => container.innerHTML = '', 5000);
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault();
+            if (currentTab === 'productos') document.getElementById('formProducto').dispatchEvent(new Event('submit'));
+            if (currentTab === 'movimientos') document.getElementById('formMovimiento').dispatchEvent(new Event('submit'));
+            if (currentTab === 'bitacora') document.getElementById('formUsuario').dispatchEvent(new Event('submit'));
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
+            e.preventDefault();
+            if (currentTab === 'dashboard') loadDashboard();
+            if (currentTab === 'inventario') mostrarStock();
+        }
+    });
+  </script>
+</body>
+</html>
