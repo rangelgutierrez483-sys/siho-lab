@@ -74,7 +74,6 @@
     .kpi-promedio { border-left-color: #ffc107 !important; }
     .kpi-mejor { border-left-color: #28a745 !important; }
     .kpi-peor { border-left-color: #dc3545 !important; }
-
     .bitacora-item { background: white; border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; border-left: 6px solid #5DADE2; box-shadow: 0 2px 6px rgba(0,0,0,0.06); border: 1px solid #E5F2F7; }
     .bitacora-item.status-critical { border-left-color: #dc3545; }
     .bitacora-item.status-normal { border-left-color: #ffc107; }
@@ -91,81 +90,40 @@
     .nivel-badge.status-normal { background: #fff3cd; color: #856404; }
     .nivel-badge.status-optimal { background: #d4edda; color: #155724; }
     .nivel-badge.status-best { background: #cce5ff; color: #004085; }
-
-    /* Barra superior compacta */
-    .admin-toolbar {
-      background: white;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      flex-wrap: wrap;
-      border-bottom: 1px solid #e9ecef;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .admin-toolbar .btn-tool {
-      padding: 6px 14px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      color: white;
-    }
-    .admin-toolbar .btn-tool:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    }
+    .admin-toolbar { background: white; padding: 10px 20px; display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid #e9ecef; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .admin-toolbar .btn-tool { padding: 6px 14px; font-size: 0.8rem; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; color: white; }
+    .admin-toolbar .btn-tool:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
     .btn-tool-inv { background: #28a745; }
     .btn-tool-reset { background: #dc3545; }
     .btn-tool-prod { background: #2E86AB; }
-
-    .admin-action-panel {
-      display: none;
-      background: white;
-      border-radius: 0 0 12px 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      margin: 0;
-      border: 2px solid #5DADE2;
-      border-top: none;
-      animation: slideDown 0.3s ease;
-    }
+    .admin-action-panel { display: none; background: white; border-radius: 0 0 12px 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin: 0; border: 2px solid #5DADE2; border-top: none; animation: slideDown 0.3s ease; }
     .admin-action-panel.visible { display: block; }
     @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
     .admin-action-panel .panel-header { padding: 15px 20px; background: #F0F8FC; border-bottom: 1px solid #E5F2F7; display: flex; justify-content: space-between; align-items: center; }
     .admin-action-panel .panel-header h3 { color: #2E86AB; font-size: 1rem; font-weight: 700; }
     .admin-action-panel .panel-body { padding: 20px; }
-    .admin-action-panel .panel-close { background: transparent; border: none; color: #6c757d; font-size: 1.3rem; cursor: pointer; line-height: 1; padding: 0 8px; transition: color 0.2s; }
+    .admin-action-panel .panel-close { background: transparent; border: none; color: #6c757d; font-size: 1.3rem; cursor: pointer; line-height: 1; padding: 0 8px; }
     .admin-action-panel .panel-close:hover { color: #dc3545; }
     .panel-warning { border-color: #dc3545 !important; }
     .panel-warning .panel-header { background: #f8d7da; }
     .panel-warning .panel-header h3 { color: #721c24; }
-
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 2000;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
     .modal-overlay.visible { display: flex; }
-    .modal-box {
-      background: white;
-      border-radius: 12px;
-      padding: 25px;
-      max-width: 500px;
-      width: 100%;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
+    .modal-box { background: white; border-radius: 12px; padding: 25px; max-width: 500px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
     .modal-box h3 { color: #2E86AB; margin-bottom: 15px; font-size: 1.2rem; }
     .modal-box .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
-
+    .inv-tabs { display: flex; gap: 5px; border-bottom: 2px solid #E5F2F7; margin-bottom: 20px; flex-wrap: wrap; }
+    .inv-tab { padding: 10px 18px; background: transparent; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-weight: 600; color: #6c757d; font-size: 0.9rem; transition: all 0.2s; }
+    .inv-tab:hover { color: #2E86AB; }
+    .inv-tab.active { color: #2E86AB; border-bottom-color: #2E86AB; }
+    .inv-panel { display: none; }
+    .inv-panel.active { display: block; }
+    .grupo-card { background: white; padding: 20px; border-radius: 10px; border: 1px solid #E5F2F7; box-shadow: 0 2px 6px rgba(0,0,0,0.06); text-align: center; cursor: pointer; transition: all 0.2s; }
+    .grupo-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.1); border-color: #5DADE2; }
+    .grupo-card h4 { color: #2E86AB; font-size: 1rem; margin-bottom: 8px; }
+    .grupo-card .valor { font-size: 1.8rem; font-weight: 700; color: #2E86AB; }
+    .grupo-card .unidad { font-size: 0.85rem; color: #6c757d; }
+    .grupos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-bottom: 25px; }
     @media (max-width: 768px) {
       .sidebar { width: 100%; height: auto; position: fixed; top: 0; left: -100%; z-index: 1000; transition: left 0.3s ease; }
       .sidebar.open { left: 0; }
@@ -174,6 +132,7 @@
       .actions { flex-direction: column; }
       .charts-grid { grid-template-columns: 1fr; }
       .admin-toolbar { justify-content: center; }
+      .grupos-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -202,16 +161,6 @@
         <div class="content-header"><h2>Dashboard General</h2></div>
         <div class="content-body">
           <div class="stats-grid" id="statsGrid"></div>
-          <div class="card">
-            <div class="card-header">Alertas de Stock</div>
-            <div class="card-body">
-              <div class="actions">
-                <button class="btn btn-primary" onclick="loadDashboard()">Actualizar Dashboard</button>
-                <button class="btn btn-warning" onclick="showStockAlerts()">Ver Alertas de Stock</button>
-              </div>
-              <div id="alertsContainer"></div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -240,13 +189,15 @@
                   <div class="form-group"><label for="nombreProd">Nombre *</label><input id="nombreProd" type="text" placeholder="Nombre de la variedad" required></div>
                   <div class="form-group"><label for="fechaProcesoProd">Fecha de Proceso *</label><input id="fechaProcesoProd" type="date" required></div>
                   <div class="form-group">
-                    <label for="grupoProd">Grupo *</label>
+                    <label for="grupoProd">Grupo inicial *</label>
                     <select id="grupoProd" required>
                       <option value="">Seleccione un grupo</option>
                       <option value="Miristemos">Miristemos</option>
+                      <option value="Bioreactor">Bioreactor</option>
                       <option value="Multiplicación">Multiplicación</option>
                       <option value="Raíz">Raíz</option>
-                      <option value="Bioreactor">Bioreactor</option>
+                      <option value="Planta Lavada">Planta Lavada</option>
+                      <option value="Invernadero">Invernadero</option>
                     </select>
                   </div>
                 </div>
@@ -281,21 +232,24 @@
                   <div class="form-group"><label for="fechaMov">Fecha *</label><input id="fechaMov" type="date" required></div>
                   <div class="form-group">
                     <label for="tipoMov">Tipo de Movimiento *</label>
-                    <select id="tipoMov" required>
+                    <select id="tipoMov" required onchange="handleTipoChange()">
                       <option value="">Seleccione un tipo</option>
                       <option value="Ingreso">Ingreso</option>
-                      <option value="Traspaso a raíz">Traspaso a raíz</option>
-                      <option value="Traspaso a Multi">Traspaso a Multi</option>
-                      <option value="Traspaso a invernadero">Traspaso a invernadero</option>
+                      <option value="Traspaso">Traspaso</option>
                     </select>
                   </div>
-                  <div class="form-group"><label for="cantMov">Cantidad *</label><input id="cantMov" type="number" min="0.01" step="0.01" placeholder="Cantidad" required></div>
+                </div>
+
+                <div class="form-grid" id="camposDinamicos"></div>
+
+                <div class="form-grid">
                   <div class="form-group">
                     <label for="usuarioMov">Usuario *</label>
                     <select id="usuarioMov" required><option value="">Seleccione un usuario</option></select>
                   </div>
-                  <div class="form-group"><label for="obsMov">Observaciones</label><textarea id="obsMov" placeholder="Observaciones opcionales" rows="3"></textarea></div>
+                  <div class="form-group"><label for="obsMov">Observaciones</label><textarea id="obsMov" placeholder="Observaciones opcionales" rows="2"></textarea></div>
                 </div>
+
                 <div class="actions">
                   <button type="submit" class="btn btn-success">Guardar Movimiento</button>
                   <button type="button" class="btn btn-secondary" onclick="limpiarFormMovimiento()">Limpiar</button>
@@ -312,15 +266,23 @@
         <div class="content-header"><h2>Control de Inventario</h2></div>
         <div class="content-body">
           <div class="card">
-            <div class="card-header">Stock Actual</div>
+            <div class="card-header">Inventario Completo</div>
             <div class="card-body">
+              <div class="inv-tabs">
+                <button class="inv-tab active" onclick="showInvTab('general', this)">Vista General</button>
+                <button class="inv-tab" onclick="showInvTab('porGrupo', this)">Por Grupo</button>
+                <button class="inv-tab" onclick="showInvTab('porColor', this)">Por Color</button>
+                <button class="inv-tab" onclick="showInvTab('porVariedad', this)">Por Variedad</button>
+              </div>
               <div class="actions">
-                <button class="btn btn-primary" onclick="mostrarStock()">Actualizar Stock</button>
+                <button class="btn btn-primary" onclick="cargarInventario()">Actualizar Inventario</button>
                 <button class="btn btn-success" onclick="exportarStock()">Exportar CSV</button>
-                <button class="btn btn-warning" onclick="mostrarAlertas()">Solo Alertas</button>
               </div>
               <div id="loading" class="loading">Cargando inventario...</div>
-              <div class="table-container"><div id="stockTable"></div></div>
+              <div id="invPanelGeneral" class="inv-panel active"><div id="invGeneral"></div></div>
+              <div id="invPanelPorGrupo" class="inv-panel"><div id="invPorGrupo"></div></div>
+              <div id="invPanelPorColor" class="inv-panel"><div id="invPorColor"></div></div>
+              <div id="invPanelPorVariedad" class="inv-panel"><div id="invPorVariedad"></div></div>
             </div>
           </div>
         </div>
@@ -340,9 +302,8 @@
                   <label for="filtroTipo">Filtrar por Tipo</label>
                   <select id="filtroTipo">
                     <option value="">Todos los movimientos</option>
-                    <option value="Traspaso a raíz">Traspaso a raíz</option>
-                    <option value="Traspaso a Multi">Traspaso a Multi</option>
-                    <option value="Traspaso a invernadero">Traspaso a invernadero</option>
+                    <option value="Ingreso">Solo Ingresos</option>
+                    <option value="Traspaso">Solo Traspasos</option>
                   </select>
                 </div>
               </div>
@@ -364,7 +325,7 @@
             <div class="card-header">Buscar Productos</div>
             <div class="card-body">
               <div class="form-grid">
-                <div class="form-group"><label for="buscarTexto">Buscar por color, nombre o grupo</label><input id="buscarTexto" type="text" placeholder="Escriba para buscar..." onkeyup="buscarEnTiempoReal()"></div>
+                <div class="form-group"><label for="buscarTexto">Buscar por color o nombre</label><input id="buscarTexto" type="text" placeholder="Escriba para buscar..." onkeyup="buscarEnTiempoReal()"></div>
               </div>
               <div class="actions">
                 <button class="btn btn-primary" onclick="buscarProducto()">Buscar</button>
@@ -424,9 +385,7 @@
 
       <!-- ADMIN -->
       <div id="admin" class="tab-content">
-        <div class="content-header">
-          <h2>Panel de Administración</h2>
-        </div>
+        <div class="content-header"><h2>Panel de Administración</h2></div>
 
         <div class="content-body">
           <div class="card">
@@ -447,7 +406,6 @@
           </div>
         </div>
 
-        <!-- BARRA DE BOTONES COMPACTOS -->
         <div class="admin-toolbar">
           <button class="btn-tool btn-tool-inv" onclick="togglePanel('panelInventario')">Cargar Inventario Inicial</button>
           <button class="btn-tool btn-tool-reset" onclick="togglePanel('panelReset')">Reset Total</button>
@@ -462,7 +420,7 @@
           </div>
           <div class="panel-body">
             <div class="message info" style="margin-top: 0;">
-              <strong>ℹ️</strong> Carga inventario base sin asignarlo a ningún trabajador. No aparece en las bitácoras ni en las estadísticas de producción.
+              <strong>ℹ️</strong> Carga inventario base sin asignarlo a ningún trabajador.
             </div>
             <div class="form-grid">
               <div class="form-group">
@@ -482,15 +440,17 @@
               <div class="form-group"><label for="invFecha">Fecha *</label><input id="invFecha" type="date"></div>
               <div class="form-group">
                 <label for="invGrupo">Grupo *</label>
-                <select id="invGrupo" required>
+                <select id="invGrupo" required onchange="handleInvGrupoChange()">
                   <option value="">Seleccione un grupo</option>
                   <option value="Miristemos">Miristemos</option>
+                  <option value="Bioreactor">Bioreactor</option>
                   <option value="Multiplicación">Multiplicación</option>
                   <option value="Raíz">Raíz</option>
-                  <option value="Bioreactor">Bioreactor</option>
+                  <option value="Planta Lavada">Planta Lavada</option>
+                  <option value="Invernadero">Invernadero</option>
                 </select>
               </div>
-              <div class="form-group"><label for="invCantidad">Cantidad *</label><input id="invCantidad" type="number" min="1" step="1" placeholder="Ej. 500"></div>
+              <div id="invCamposDinamicos" style="grid-column: 1 / -1;"></div>
               <div class="form-group"><label for="invPassword">Contraseña Admin *</label><input id="invPassword" type="password" placeholder="Contraseña"></div>
             </div>
             <div class="actions">
@@ -508,7 +468,7 @@
           </div>
           <div class="panel-body">
             <div class="message warning" style="margin-top: 0;">
-              <strong>⚠️ PELIGRO:</strong> Esto borra TODOS los productos, movimientos, usuarios (excepto "Sistema") y bitácoras. El sistema queda completamente limpio. <strong>Esta acción no se puede deshacer.</strong>
+              <strong>⚠️ PELIGRO:</strong> Esto borra TODOS los productos, movimientos, usuarios (excepto "Sistema") y bitácoras.
             </div>
             <div class="form-grid">
               <div class="form-group">
@@ -530,9 +490,6 @@
             <button class="panel-close" onclick="togglePanel('panelProductos')">×</button>
           </div>
           <div class="panel-body">
-            <div class="message info" style="margin-top: 0;">
-              <strong>ℹ️</strong> Aquí puedes editar productos mal escritos, ajustar el stock manualmente y eliminar productos sin movimientos.
-            </div>
             <div id="gestionProductosContainer"></div>
           </div>
         </div>
@@ -579,15 +536,6 @@
           </select>
         </div>
         <div class="form-group"><label for="editNombre">Variedad</label><input id="editNombre" type="text" placeholder="Nombre de la variedad"></div>
-        <div class="form-group">
-          <label for="editGrupo">Grupo</label>
-          <select id="editGrupo">
-            <option value="Miristemos">Miristemos</option>
-            <option value="Multiplicación">Multiplicación</option>
-            <option value="Raíz">Raíz</option>
-            <option value="Bioreactor">Bioreactor</option>
-          </select>
-        </div>
         <div class="form-group"><label for="editPassword">Contraseña Admin *</label><input id="editPassword" type="password" placeholder="Contraseña"></div>
       </div>
       <div id="editResultado"></div>
@@ -598,33 +546,8 @@
     </div>
   </div>
 
-  <!-- MODAL AJUSTAR -->
-  <div id="modalAjustar" class="modal-overlay">
-    <div class="modal-box">
-      <h3>Ajustar Stock</h3>
-      <p style="color:#495057; margin-bottom: 15px;">Producto: <strong id="ajustarProductoNombre"></strong></p>
-      <div class="form-grid">
-        <div class="form-group">
-          <label for="ajustarCantidad">Cantidad (positiva o negativa) *</label>
-          <input id="ajustarCantidad" type="number" step="1" placeholder="Ej. 50 o -30">
-        </div>
-        <div class="form-group">
-          <label for="ajustarMotivo">Motivo *</label>
-          <input id="ajustarMotivo" type="text" placeholder="Ej. Conteo físico, pérdida, etc.">
-        </div>
-        <div class="form-group">
-          <label for="ajustarPassword">Contraseña Admin *</label>
-          <input id="ajustarPassword" type="password" placeholder="Contraseña">
-        </div>
-      </div>
-      <div id="ajustarResultado"></div>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="cerrarModal('modalAjustar')">Cancelar</button>
-        <button class="btn btn-success" onclick="guardarAjuste()">Aplicar Ajuste</button>
-      </div>
-    </div>
-  </div>
-
+<!-- CONTINÚA EN PARTE 2 -->
+ 
   <script>
     let currentTab = 'dashboard';
     let searchTimeout;
@@ -633,7 +556,15 @@
     let chartDona = null;
     let chartTendencia = null;
     let productoEditandoId = null;
-    let productoAjustandoId = null;
+
+    const FLUJO = {
+        'Miristemos': ['Bioreactor'],
+        'Bioreactor': ['Multiplicación', 'Raíz'],
+        'Multiplicación': ['Raíz'],
+        'Raíz': ['Planta Lavada'],
+        'Planta Lavada': ['Invernadero'],
+        'Invernadero': []
+    };
 
     function callApi(endpoint, method = 'GET', body = null) {
         const options = { method, headers: { 'Content-Type': 'application/json' } };
@@ -679,22 +610,22 @@
         }
         currentTab = tabName;
         if (tabName === 'dashboard') loadDashboard();
-        if (tabName === 'inventario') mostrarStock();
+        if (tabName === 'inventario') cargarInventario();
         if (tabName === 'movimientos') { cargarColores(); cargarUsuarios(); }
         if (tabName === 'bitacora') cargarUsuariosBitacora();
     }
 
+    // ========== DASHBOARD ==========
     function loadDashboard() {
         callApi('/resumen').then(data => {
             document.getElementById('statsGrid').innerHTML = `
                 <div class="stat-card"><div class="stat-value">${data.totalProductos}</div><div class="stat-label">Total Productos</div></div>
                 <div class="stat-card"><div class="stat-value">${data.totalMovimientos}</div><div class="stat-label">Total Movimientos</div></div>
-                <div class="stat-card"><div class="stat-value">${data.sinStock}</div><div class="stat-label">Sin Stock</div></div>
-                <div class="stat-card"><div class="stat-value">${data.stockBajo}</div><div class="stat-label">Stock Bajo</div></div>
             `;
         }).catch(() => showMessage('statsGrid', 'Error al cargar dashboard', 'error'));
     }
 
+    // ========== PRODUCTOS ==========
     function registrarProducto(event) {
         event.preventDefault();
         const producto = {
@@ -712,15 +643,20 @@
         }).catch(error => showMessage('msgProd', 'Error: ' + error, 'error'));
     }
 
+    function limpiarFormProducto() {
+        document.getElementById('formProducto').reset();
+        document.getElementById('fechaProcesoProd').valueAsDate = new Date();
+        document.getElementById('msgProd').innerHTML = '';
+    }
+
+    // ========== MOVIMIENTOS ==========
     function cargarUsuarios() {
         callApi('/usuarios').then(data => {
             usuarios = data;
             const select = document.getElementById('usuarioMov');
             select.innerHTML = '<option value="">Seleccione un usuario</option>';
             data.forEach(u => select.innerHTML += `<option value="${u._id}">${u.nombre} (${u.area})</option>`);
-        }).catch(() => {
-            document.getElementById('usuarioMov').innerHTML = '<option value="">No hay usuarios registrados</option>';
-        });
+        }).catch(() => {});
     }
 
     function cargarColores() {
@@ -728,7 +664,6 @@
             const select = document.getElementById('colorMov');
             select.innerHTML = '<option value="">Seleccione un color</option>';
             colores.forEach(c => select.innerHTML += `<option value="${c}">${c}</option>`);
-            if (select.value) cargarVariedades();
         }).catch(() => {});
     }
 
@@ -742,28 +677,245 @@
         }).catch(() => {});
     }
 
+    function handleTipoChange() {
+        const tipo = document.getElementById('tipoMov').value;
+        const cont = document.getElementById('camposDinamicos');
+        cont.innerHTML = '';
+
+        if (tipo === 'Ingreso') {
+            cont.innerHTML = `
+                <div class="form-group">
+                    <label for="grupoDestinoMov">Grupo destino *</label>
+                    <select id="grupoDestinoMov" required onchange="handleGrupoDestinoIngreso()">
+                        <option value="">Seleccione un grupo</option>
+                        <option value="Miristemos">Miristemos</option>
+                        <option value="Bioreactor">Bioreactor</option>
+                        <option value="Multiplicación">Multiplicación</option>
+                        <option value="Raíz">Raíz</option>
+                        <option value="Planta Lavada">Planta Lavada</option>
+                        <option value="Invernadero">Invernadero</option>
+                    </select>
+                </div>
+                <div id="camposDestinoIngreso" style="grid-column: 1 / -1;"></div>
+            `;
+        } else if (tipo === 'Traspaso') {
+            cont.innerHTML = `
+                <div class="form-group">
+                    <label for="grupoOrigenMov">Grupo origen *</label>
+                    <select id="grupoOrigenMov" required onchange="handleGrupoOrigenChange()">
+                        <option value="">Seleccione un grupo</option>
+                        <option value="Miristemos">Miristemos</option>
+                        <option value="Bioreactor">Bioreactor</option>
+                        <option value="Multiplicación">Multiplicación</option>
+                        <option value="Raíz">Raíz</option>
+                        <option value="Planta Lavada">Planta Lavada</option>
+                    </select>
+                </div>
+                <div id="camposOrigenDestino" style="grid-column: 1 / -1;"></div>
+            `;
+        }
+    }
+
+    function handleGrupoDestinoIngreso() {
+        const grupo = document.getElementById('grupoDestinoMov').value;
+        const cont = document.getElementById('camposDestinoIngreso');
+        cont.innerHTML = '';
+
+        if (grupo === 'Planta Lavada') {
+            cont.innerHTML = `
+                <label style="font-weight:600; color:#2E86AB; font-size:0.9rem; margin-bottom:8px; display:block;">Distribución de plantas por subdivisión *</label>
+                <div class="form-grid">
+                    <div class="form-group"><label for="subGrande">Grande</label><input id="subGrande" type="number" min="0" step="1" value="0"></div>
+                    <div class="form-group"><label for="subMediana">Mediana</label><input id="subMediana" type="number" min="0" step="1" value="0"></div>
+                    <div class="form-group"><label for="subChica">Chica</label><input id="subChica" type="number" min="0" step="1" value="0"></div>
+                    <div class="form-group"><label for="subSinRaiz">Sin Raíz</label><input id="subSinRaiz" type="number" min="0" step="1" value="0"></div>
+                </div>
+                <p id="totalPlantas" style="margin-top:10px; font-weight:600; color:#2E86AB;">Total: 0 plantas</p>
+            `;
+            ['subGrande', 'subMediana', 'subChica', 'subSinRaiz'].forEach(id => {
+                document.getElementById(id).addEventListener('input', calcularTotalPlantas);
+            });
+        } else if (grupo) {
+            cont.innerHTML = `
+                <div class="form-group">
+                    <label for="cantMov">Cantidad (frascos) *</label>
+                    <input id="cantMov" type="number" min="1" step="1" placeholder="Cantidad" required>
+                </div>
+            `;
+        }
+    }
+
+    function handleGrupoOrigenChange() {
+        const origen = document.getElementById('grupoOrigenMov').value;
+        const cont = document.getElementById('camposOrigenDestino');
+        cont.innerHTML = '';
+
+        if (!origen) return;
+
+        const permitidos = FLUJO[origen] || [];
+
+        // CASO: Raíz → Planta Lavada (con subdivisiones)
+        if (origen === 'Raíz') {
+            cont.innerHTML = `
+                <div class="form-group">
+                    <label>Grupo destino</label>
+                    <input type="text" value="Planta Lavada" disabled style="background:#F0F8FC;">
+                </div>
+                <div class="form-group">
+                    <label for="cantFrascosMov">Cantidad de frascos *</label>
+                    <input id="cantFrascosMov" type="number" min="1" step="1" placeholder="Frasco(s)" required>
+                </div>
+                <div style="grid-column: 1 / -1;">
+                    <label style="font-weight:600; color:#2E86AB; font-size:0.9rem; margin-bottom:8px; display:block;">Distribución de plantas por subdivisión *</label>
+                    <div class="form-grid">
+                        <div class="form-group"><label for="subGrande">Grande</label><input id="subGrande" type="number" min="0" step="1" value="0"></div>
+                        <div class="form-group"><label for="subMediana">Mediana</label><input id="subMediana" type="number" min="0" step="1" value="0"></div>
+                        <div class="form-group"><label for="subChica">Chica</label><input id="subChica" type="number" min="0" step="1" value="0"></div>
+                        <div class="form-group"><label for="subSinRaiz">Sin Raíz</label><input id="subSinRaiz" type="number" min="0" step="1" value="0"></div>
+                    </div>
+                    <p id="totalPlantas" style="margin-top:10px; font-weight:600; color:#2E86AB;">Total: 0 plantas</p>
+                </div>
+            `;
+            ['subGrande', 'subMediana', 'subChica', 'subSinRaiz'].forEach(id => {
+                document.getElementById(id).addEventListener('input', calcularTotalPlantas);
+            });
+            return;
+        }
+
+        // CASO: Planta Lavada → Invernadero (MÚLTIPLES SUBDIVISIONES)
+        if (origen === 'Planta Lavada') {
+            cont.innerHTML = `
+                <div class="form-group">
+                    <label>Grupo destino</label>
+                    <input type="text" value="Invernadero" disabled style="background:#F0F8FC;">
+                </div>
+                <div style="grid-column: 1 / -1;">
+                    <label style="font-weight:600; color:#2E86AB; font-size:0.9rem; margin-bottom:8px; display:block;">Cantidad a traspasar por subdivisión *</label>
+                    <div class="form-grid">
+                        <div class="form-group"><label for="subGrande">Grande</label><input id="subGrande" type="number" min="0" step="1" value="0"></div>
+                        <div class="form-group"><label for="subMediana">Mediana</label><input id="subMediana" type="number" min="0" step="1" value="0"></div>
+                        <div class="form-group"><label for="subChica">Chica</label><input id="subChica" type="number" min="0" step="1" value="0"></div>
+                        <div class="form-group"><label for="subSinRaiz">Sin Raíz</label><input id="subSinRaiz" type="number" min="0" step="1" value="0"></div>
+                    </div>
+                    <p id="totalPlantas" style="margin-top:10px; font-weight:600; color:#2E86AB;">Total: 0 plantas</p>
+                </div>
+            `;
+            ['subGrande', 'subMediana', 'subChica', 'subSinRaiz'].forEach(id => {
+                document.getElementById(id).addEventListener('input', calcularTotalPlantas);
+            });
+            return;
+        }
+
+        // CASO normal (Miristemos → Bioreactor, Bioreactor → Multiplicación/Raíz, Multiplicación → Raíz)
+        const opciones = permitidos.map(g => `<option value="${g}">${g}</option>`).join('');
+        cont.innerHTML = `
+            <div class="form-group">
+                <label for="grupoDestinoMov">Grupo destino *</label>
+                <select id="grupoDestinoMov" required>${opciones}</select>
+            </div>
+            <div class="form-group">
+                <label for="cantMov">Cantidad (frascos) *</label>
+                <input id="cantMov" type="number" min="1" step="1" placeholder="Cantidad" required>
+            </div>
+        `;
+    }
+
+    function calcularTotalPlantas() {
+        const grande = parseInt(document.getElementById('subGrande').value) || 0;
+        const mediana = parseInt(document.getElementById('subMediana').value) || 0;
+        const chica = parseInt(document.getElementById('subChica').value) || 0;
+        const sinRaiz = parseInt(document.getElementById('subSinRaiz').value) || 0;
+        const total = grande + mediana + chica + sinRaiz;
+        const el = document.getElementById('totalPlantas');
+        if (el) el.textContent = `Total: ${total} plantas`;
+    }
+
     function registrarMovimiento(event) {
         event.preventDefault();
-        const movimiento = {
-            color: document.getElementById('colorMov').value,
-            nombre: document.getElementById('nombreMov').value,
-            fecha: document.getElementById('fechaMov').value,
-            tipo: document.getElementById('tipoMov').value,
-            cantidad: parseFloat(document.getElementById('cantMov').value) || 0,
-            usuarioId: document.getElementById('usuarioMov').value,
-            observaciones: document.getElementById('obsMov').value.trim()
-        };
-        if (!movimiento.color || !movimiento.nombre || !movimiento.fecha || !movimiento.tipo || !movimiento.cantidad || !movimiento.usuarioId) return showMessage('msgMov', 'Todos los campos son obligatorios', 'error');
-        if (movimiento.cantidad <= 0) return showMessage('msgMov', 'La cantidad debe ser mayor a 0', 'error');
-        callApi('/movimientos', 'POST', movimiento).then(mensaje => {
+        const tipo = document.getElementById('tipoMov').value;
+        const color = document.getElementById('colorMov').value;
+        const nombre = document.getElementById('nombreMov').value;
+        const fecha = document.getElementById('fechaMov').value;
+        const usuarioId = document.getElementById('usuarioMov').value;
+        const observaciones = document.getElementById('obsMov').value.trim();
+
+        if (!color || !nombre || !fecha || !tipo || !usuarioId) return showMessage('msgMov', 'Todos los campos son obligatorios', 'error');
+
+        let payload = { color, nombre, fecha, tipo, usuarioId, observaciones };
+
+        if (tipo === 'Ingreso') {
+            const grupoDestino = document.getElementById('grupoDestinoMov').value;
+            if (!grupoDestino) return showMessage('msgMov', 'Seleccione grupo destino', 'error');
+            payload.grupoDestino = grupoDestino;
+
+            if (grupoDestino === 'Planta Lavada') {
+                const grande = parseInt(document.getElementById('subGrande').value) || 0;
+                const mediana = parseInt(document.getElementById('subMediana').value) || 0;
+                const chica = parseInt(document.getElementById('subChica').value) || 0;
+                const sinRaiz = parseInt(document.getElementById('subSinRaiz').value) || 0;
+                const total = grande + mediana + chica + sinRaiz;
+                if (total <= 0) return showMessage('msgMov', 'Distribuya al menos una planta', 'error');
+                payload.subdivisiones = { grande, mediana, chica, sinRaiz };
+            } else {
+                const cantidad = parseFloat(document.getElementById('cantMov').value) || 0;
+                if (cantidad <= 0) return showMessage('msgMov', 'Ingrese una cantidad', 'error');
+                payload.cantidad = cantidad;
+            }
+        } else if (tipo === 'Traspaso') {
+            const grupoOrigen = document.getElementById('grupoOrigenMov').value;
+            if (!grupoOrigen) return showMessage('msgMov', 'Seleccione grupo origen', 'error');
+            payload.grupoOrigen = grupoOrigen;
+
+            if (grupoOrigen === 'Raíz') {
+                const cantFrascos = parseFloat(document.getElementById('cantFrascosMov').value) || 0;
+                const grande = parseInt(document.getElementById('subGrande').value) || 0;
+                const mediana = parseInt(document.getElementById('subMediana').value) || 0;
+                const chica = parseInt(document.getElementById('subChica').value) || 0;
+                const sinRaiz = parseInt(document.getElementById('subSinRaiz').value) || 0;
+                const totalPlantas = grande + mediana + chica + sinRaiz;
+                if (cantFrascos <= 0) return showMessage('msgMov', 'Ingrese cantidad de frascos', 'error');
+                if (totalPlantas <= 0) return showMessage('msgMov', 'Distribuya al menos una planta', 'error');
+                payload.grupoDestino = 'Planta Lavada';
+                payload.cantidadFrascos = cantFrascos;
+                payload.subdivisiones = { grande, mediana, chica, sinRaiz };
+            } else if (grupoOrigen === 'Planta Lavada') {
+                const grande = parseInt(document.getElementById('subGrande').value) || 0;
+                const mediana = parseInt(document.getElementById('subMediana').value) || 0;
+                const chica = parseInt(document.getElementById('subChica').value) || 0;
+                const sinRaiz = parseInt(document.getElementById('subSinRaiz').value) || 0;
+                const total = grande + mediana + chica + sinRaiz;
+                if (total <= 0) return showMessage('msgMov', 'Ingrese al menos una cantidad', 'error');
+                payload.grupoDestino = 'Invernadero';
+                payload.subdivisiones = { grande, mediana, chica, sinRaiz };
+            } else {
+                const grupoDestino = document.getElementById('grupoDestinoMov').value;
+                const cantidad = parseFloat(document.getElementById('cantMov').value) || 0;
+                if (!grupoDestino || cantidad <= 0) return showMessage('msgMov', 'Complete grupo destino y cantidad', 'error');
+                payload.grupoDestino = grupoDestino;
+                payload.cantidad = cantidad;
+            }
+        }
+
+        callApi('/movimientos', 'POST', payload).then(mensaje => {
             showMessage('msgMov', mensaje, 'success');
             document.getElementById('formMovimiento').reset();
             document.getElementById('fechaMov').valueAsDate = new Date();
+            document.getElementById('camposDinamicos').innerHTML = '';
             cargarColores();
             cargarUsuarios();
         }).catch(error => showMessage('msgMov', 'Error: ' + error, 'error'));
     }
 
+    function limpiarFormMovimiento() {
+        document.getElementById('formMovimiento').reset();
+        document.getElementById('fechaMov').valueAsDate = new Date();
+        document.getElementById('msgMov').innerHTML = '';
+        document.getElementById('camposDinamicos').innerHTML = '';
+        cargarColores();
+        cargarUsuarios();
+    }
+
+    // ========== USUARIOS ==========
     function registrarUsuario(event) {
         event.preventDefault();
         const nombre = document.getElementById('nombreUsuario').value.trim();
@@ -786,6 +938,254 @@
         }).catch(error => showMessage('msgUsuario', 'Error: ' + error.message, 'error'));
     }
 
+    function limpiarFormUsuario() {
+        document.getElementById('formUsuario').reset();
+        document.getElementById('msgUsuario').innerHTML = '';
+    }
+
+    // ========== INVENTARIO ==========
+    function showInvTab(tab, btn) {
+        document.querySelectorAll('.inv-tab').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.inv-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('invPanel' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+        cargarInventario();
+    }
+
+    function cargarInventario() {
+        cargarInvGeneral();
+        cargarInvPorGrupo();
+        cargarInvPorColor();
+        cargarInvPorVariedad();
+    }
+
+    function cargarInvGeneral() {
+        const cont = document.getElementById('invGeneral');
+        cont.innerHTML = '<div class="loading" style="display:block;">Cargando...</div>';
+        callApi('/inventario/general').then(data => {
+            const grupos = [
+                { nombre: 'Miristemos', unidad: 'frascos' },
+                { nombre: 'Bioreactor', unidad: 'frascos' },
+                { nombre: 'Multiplicación', unidad: 'frascos' },
+                { nombre: 'Raíz', unidad: 'frascos' },
+                { nombre: 'Planta Lavada', unidad: 'plantas' },
+                { nombre: 'Invernadero', unidad: 'plantas' }
+            ];
+            let html = '<div class="grupos-grid">';
+            grupos.forEach(g => {
+                html += `
+                    <div class="grupo-card" onclick="verGrupoDetalle('${g.nombre}')">
+                        <h4>${g.nombre}</h4>
+                        <div class="valor">${data[g.nombre] || 0}</div>
+                        <div class="unidad">${g.unidad}</div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            cont.innerHTML = html;
+        }).catch(() => cont.innerHTML = '<div class="message error">Error al cargar</div>');
+    }
+
+    function verGrupoDetalle(grupo) {
+        showInvTab('porGrupo', document.querySelectorAll('.inv-tab')[1]);
+        setTimeout(() => {
+            const sel = document.getElementById('selectGrupoInv');
+            if (sel) { sel.value = grupo; cargarInvGrupoDetalle(); }
+        }, 100);
+    }
+
+    function cargarInvPorGrupo() {
+        const cont = document.getElementById('invPorGrupo');
+        cont.innerHTML = `
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Seleccione un grupo</label>
+                    <select id="selectGrupoInv" onchange="cargarInvGrupoDetalle()">
+                        <option value="">-- Elija grupo --</option>
+                        <option value="Miristemos">Miristemos</option>
+                        <option value="Bioreactor">Bioreactor</option>
+                        <option value="Multiplicación">Multiplicación</option>
+                        <option value="Raíz">Raíz</option>
+                        <option value="Planta Lavada">Planta Lavada</option>
+                        <option value="Invernadero">Invernadero</option>
+                    </select>
+                </div>
+            </div>
+            <div id="invGrupoDetalle"></div>
+        `;
+    }
+
+    function cargarInvGrupoDetalle() {
+        const grupo = document.getElementById('selectGrupoInv').value;
+        const cont = document.getElementById('invGrupoDetalle');
+        if (!grupo) { cont.innerHTML = ''; return; }
+        cont.innerHTML = '<div class="loading" style="display:block;">Cargando...</div>';
+        callApi(`/inventario/grupo/${encodeURIComponent(grupo)}`).then(data => {
+            const colores = Object.keys(data).sort();
+            if (colores.length === 0) { cont.innerHTML = '<div class="message warning">No hay stock en este grupo.</div>'; return; }
+            let html = `<h4 style="color:#2E86AB; margin-bottom:15px;">Grupo: ${grupo}</h4>`;
+            html += '<div class="table-container"><table><thead><tr><th>Color</th><th>Cantidad</th><th>Acciones</th></tr></thead><tbody>';
+            colores.forEach(color => {
+                html += `<tr><td>${color}</td><td><strong>${data[color]}</strong></td>
+                    <td><button class="btn btn-primary btn-sm" onclick='verColorDetalle("${grupo}", "${color}")'>Ver variedades</button></td>
+                </tr>`;
+            });
+            html += '</tbody></table></div>';
+            cont.innerHTML = html;
+        }).catch(() => cont.innerHTML = '<div class="message error">Error</div>');
+    }
+
+    function verColorDetalle(grupo, color) {
+        showInvTab('porColor', document.querySelectorAll('.inv-tab')[2]);
+        setTimeout(() => {
+            document.getElementById('selectGrupoInvColor').value = grupo;
+            cargarColoresInv();
+            setTimeout(() => {
+                document.getElementById('selectColorInv').value = color;
+                cargarInvColorDetalle();
+            }, 100);
+        }, 100);
+    }
+
+    function cargarInvPorColor() {
+        const cont = document.getElementById('invPorColor');
+        cont.innerHTML = `
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Grupo</label>
+                    <select id="selectGrupoInvColor" onchange="cargarColoresInv()">
+                        <option value="">-- Elija grupo --</option>
+                        <option value="Miristemos">Miristemos</option>
+                        <option value="Bioreactor">Bioreactor</option>
+                        <option value="Multiplicación">Multiplicación</option>
+                        <option value="Raíz">Raíz</option>
+                        <option value="Planta Lavada">Planta Lavada</option>
+                        <option value="Invernadero">Invernadero</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Color</label>
+                    <select id="selectColorInv" onchange="cargarInvColorDetalle()">
+                        <option value="">-- Primero elija grupo --</option>
+                    </select>
+                </div>
+            </div>
+            <div id="invColorDetalle"></div>
+        `;
+    }
+
+    function cargarColoresInv() {
+        const grupo = document.getElementById('selectGrupoInvColor').value;
+        const selColor = document.getElementById('selectColorInv');
+        selColor.innerHTML = '<option value="">-- Elija color --</option>';
+        if (!grupo) { document.getElementById('invColorDetalle').innerHTML = ''; return; }
+        callApi(`/inventario/grupo/${encodeURIComponent(grupo)}`).then(data => {
+            Object.keys(data).sort().forEach(c => {
+                selColor.innerHTML += `<option value="${c}">${c}</option>`;
+            });
+        });
+    }
+
+    function cargarInvColorDetalle() {
+        const grupo = document.getElementById('selectGrupoInvColor').value;
+        const color = document.getElementById('selectColorInv').value;
+        const cont = document.getElementById('invColorDetalle');
+        if (!grupo || !color) { cont.innerHTML = ''; return; }
+        cont.innerHTML = '<div class="loading" style="display:block;">Cargando...</div>';
+        callApi(`/inventario/color/${encodeURIComponent(grupo)}/${encodeURIComponent(color)}`).then(data => {
+            if (!data.length) { cont.innerHTML = '<div class="message warning">Sin stock.</div>'; return; }
+            let html = `<h4 style="color:#2E86AB; margin-bottom:15px;">${grupo} → ${color}</h4>`;
+            html += '<div class="table-container"><table><thead><tr><th>Variedad</th><th>Cantidad</th>';
+            if (grupo === 'Planta Lavada') html += '<th>Grande</th><th>Mediana</th><th>Chica</th><th>Sin Raíz</th>';
+            html += '</tr></thead><tbody>';
+            data.forEach(v => {
+                html += `<tr><td>${v.nombre}</td><td><strong>${v.cantidad}</strong></td>`;
+                if (grupo === 'Planta Lavada' && v.subdivisiones) {
+                    html += `<td>${v.subdivisiones.grande}</td><td>${v.subdivisiones.mediana}</td><td>${v.subdivisiones.chica}</td><td>${v.subdivisiones.sinRaiz}</td>`;
+                }
+                html += '</tr>';
+            });
+            html += '</tbody></table></div>';
+            cont.innerHTML = html;
+        }).catch(() => cont.innerHTML = '<div class="message error">Error</div>');
+    }
+
+    function cargarInvPorVariedad() {
+        const cont = document.getElementById('invPorVariedad');
+        cont.innerHTML = '<div class="loading" style="display:block;">Cargando...</div>';
+        callApi('/inventario/variedad').then(data => {
+            if (!data.length) { cont.innerHTML = '<div class="message warning">No hay productos.</div>'; return; }
+            let html = '<div class="table-container"><table><thead><tr><th>Color</th><th>Variedad</th><th>Miristemos</th><th>Bioreactor</th><th>Multiplicación</th><th>Raíz</th><th>Planta Lavada</th><th>Invernadero</th><th>Total</th></tr></thead><tbody>';
+            data.forEach(p => {
+                html += `<tr><td>${p.color}</td><td>${p.nombre}</td><td>${p.miristemos}</td><td>${p.bioreactor}</td><td>${p.multiplicacion}</td><td>${p.raiz}</td><td>${p.plantaTotal}</td><td>${p.invernadero}</td><td><strong>${p.total}</strong></td></tr>`;
+            });
+            html += '</tbody></table></div>';
+            cont.innerHTML = html;
+        }).catch(() => cont.innerHTML = '<div class="message error">Error</div>');
+    }
+
+    function exportarStock() {
+        window.open('/api/exportar-stock', '_blank');
+    }
+
+    // ========== REPORTES ==========
+    function mostrarHistorial() {
+        const desde = document.getElementById('fechaDesde').value;
+        const hasta = document.getElementById('fechaHasta').value;
+        const tipo = document.getElementById('filtroTipo').value;
+        if (!desde || !hasta) return showMessage('historialTable', 'Seleccione las fechas', 'warning');
+        callApi(`/historial?desde=${desde}&hasta=${hasta}&tipo=${encodeURIComponent(tipo)}`).then(data => {
+            const container = document.getElementById('historialTable');
+            if (data.length === 0) return container.innerHTML = '<div class="message warning">No hay movimientos en el período seleccionado</div>';
+            let html = `<div class="message success">Se encontraron ${data.length} movimientos</div><div class="table-container"><table><thead><tr><th>Fecha</th><th>Color</th><th>Nombre</th><th>Tipo</th><th>Origen</th><th>Destino</th><th>Cantidad</th><th>Usuario</th></tr></thead><tbody>`;
+            data.forEach(m => {
+                html += `<tr><td>${m.fecha}</td><td>${m.color}</td><td>${m.nombre}</td><td>${m.tipo}</td><td>${m.grupoOrigen}</td><td>${m.grupoDestino}</td><td>${m.cantidad}</td><td>${m.usuario}</td></tr>`;
+            });
+            html += '</tbody></table></div>';
+            container.innerHTML = html;
+        }).catch(() => showMessage('historialTable', 'Error al cargar historial', 'error'));
+    }
+
+    function exportarReporte() {
+        const desde = document.getElementById('fechaDesde').value;
+        const hasta = document.getElementById('fechaHasta').value;
+        if (!desde || !hasta) return showMessage('historialTable', 'Seleccione las fechas', 'warning');
+        window.open(`/api/historial?desde=${desde}&hasta=${hasta}&tipo=${document.getElementById('filtroTipo').value}&format=csv`, '_blank');
+    }
+
+    // ========== BUSCAR ==========
+    function buscarProducto() {
+        const texto = document.getElementById('buscarTexto').value.trim();
+        if (!texto) return showMessage('resultadosBusqueda', 'Ingrese un texto', 'warning');
+        callApi(`/buscar?q=${encodeURIComponent(texto)}`).then(data => displaySearchResults(data)).catch(() => showMessage('resultadosBusqueda', 'Error', 'error'));
+    }
+
+    function buscarEnTiempoReal() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const texto = document.getElementById('buscarTexto').value.trim();
+            if (texto.length >= 2) buscarProducto();
+            else if (texto.length === 0) document.getElementById('resultadosBusqueda').innerHTML = '';
+        }, 300);
+    }
+
+    function displaySearchResults(data) {
+        const container = document.getElementById('resultadosBusqueda');
+        if (data.length === 0) return container.innerHTML = '<div class="message warning">No se encontraron productos</div>';
+        let html = '<div class="table-container"><table><thead><tr><th>Color</th><th>Nombre</th><th>Miristemos</th><th>Bioreactor</th><th>Multiplicación</th><th>Raíz</th><th>Planta Lavada</th><th>Invernadero</th><th>Total</th></tr></thead><tbody>';
+        data.forEach(p => {
+            html += `<tr><td>${p.color}</td><td>${p.nombre}</td><td>${p.stockMiristemos}</td><td>${p.stockBioreactor}</td><td>${p.stockMultiplicacion}</td><td>${p.stockRaiz}</td><td>${p.stockPlanta.total || 0}</td><td>${p.stockInvernadero}</td><td><strong>${p.stockTotal}</strong></td></tr>`;
+        });
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
+    }
+
+    function limpiarBusqueda() {
+        document.getElementById('buscarTexto').value = '';
+        document.getElementById('resultadosBusqueda').innerHTML = '';
+    }
+
+    // ========== BITÁCORA ==========
     function cargarUsuariosBitacora() {
         callApi('/usuarios').then(data => {
             const select = document.getElementById('selectUsuarioBitacora');
@@ -808,22 +1208,13 @@
             }
             let html = `<h4>Bitácora de ${data.usuarioId ? data.usuarioId.nombre : 'Usuario'}</h4>`;
             html += `<p><strong>Fecha:</strong> ${new Date(data.fecha).toLocaleDateString('es-ES')}</p>`;
-            html += `<p><strong>Horas trabajadas:</strong> ${data.horasTrabajadas}</p>`;
+            html += `<p><strong>Horas:</strong> ${data.horasTrabajadas}</p>`;
             html += `<p><strong>Descripción:</strong> ${data.descripcion || 'No registrada'}</p>`;
             html += `<p><strong>Producción:</strong> ${data.produccion || 0}</p>`;
-            if (data.movimientos && data.movimientos.length > 0) {
-                html += `<table><thead><tr><th>Producto</th><th>Tipo</th><th>Cantidad</th><th>Stock resultante</th></tr></thead><tbody>`;
-                data.movimientos.forEach(m => {
-                    html += `<tr><td>${m.color} - ${m.nombreVariedad}</td><td>${m.tipo}</td><td>${m.cantidad}</td><td>${m.stockResultante}</td></tr>`;
-                });
-                html += `</tbody></table>`;
-            } else {
-                html += `<p><em>Sin movimientos registrados en esta fecha.</em></p>`;
-            }
             container.innerHTML = html;
             document.getElementById('descripcionBitacora').value = data.descripcion || '';
             document.getElementById('produccionBitacora').value = data.produccion || '';
-        }).catch(() => showMessage('bitacoraContainer', 'Error al cargar bitácora', 'error'));
+        }).catch(() => showMessage('bitacoraContainer', 'Error', 'error'));
     }
 
     function guardarBitacora() {
@@ -831,20 +1222,17 @@
         const descripcion = document.getElementById('descripcionBitacora').value.trim();
         const produccion = parseFloat(document.getElementById('produccionBitacora').value) || 0;
         const fecha = document.getElementById('fechaBitacora').value;
-        if (!usuarioId) return showMessage('bitacoraContainer', 'Seleccione un usuario primero', 'error');
+        if (!usuarioId) return showMessage('bitacoraContainer', 'Seleccione un usuario', 'error');
         const body = {};
         if (descripcion) body.descripcion = descripcion;
         if (produccion > 0) body.produccion = produccion;
-        if (Object.keys(body).length === 0) return showMessage('bitacoraContainer', 'Ingrese al menos una descripción o producción', 'error');
+        if (Object.keys(body).length === 0) return showMessage('bitacoraContainer', 'Ingrese descripción o producción', 'error');
         fetch(`/api/bitacora/${usuarioId}?fecha=${fecha || ''}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            method: 'PATCH', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
-        }).then(res => {
-            if (!res.ok) throw new Error('Error al guardar');
-            return res.json();
-        }).then(data => {
-            showMessage('bitacoraContainer', data.mensaje || 'Bitácora guardada correctamente', 'success');
+        }).then(res => { if (!res.ok) throw new Error('Error'); return res.json(); })
+        .then(data => {
+            showMessage('bitacoraContainer', data.mensaje || 'Guardado', 'success');
             cargarBitacoraUsuario();
         }).catch(error => showMessage('bitacoraContainer', 'Error: ' + error.message, 'error'));
     }
@@ -860,12 +1248,9 @@
     function cargarTodoAdmin() {
         const password = document.getElementById('adminPassword').value;
         const container = document.getElementById('adminContainer');
-        const msg = document.getElementById('adminMensaje');
-
         if (!password) return showMessage('adminMensaje', 'Ingrese la contraseña', 'error');
-
-        msg.innerHTML = '';
-        container.innerHTML = '<div class="loading" style="display:block;">Cargando panel completo...</div>';
+        document.getElementById('adminMensaje').innerHTML = '';
+        container.innerHTML = '<div class="loading" style="display:block;">Cargando...</div>';
 
         if (chartBarras) { chartBarras.destroy(); chartBarras = null; }
         if (chartDona) { chartDona.destroy(); chartDona = null; }
@@ -874,23 +1259,17 @@
         fetch(`/api/admin/todo?password=${encodeURIComponent(password)}`)
             .then(res => {
                 if (res.status === 401) throw new Error('Contraseña incorrecta');
-                if (!res.ok) throw new Error('Error al cargar el panel');
+                if (!res.ok) throw new Error('Error');
                 return res.json();
             })
-            .then(data => {
-                renderAdminCompleto(data);
-            })
-            .catch(error => {
-                container.innerHTML = `<div class="message error">Error: ${error.message}</div>`;
-            });
+            .then(data => { renderAdminCompleto(data); })
+            .catch(error => { container.innerHTML = `<div class="message error">Error: ${error.message}</div>`; });
     }
 
     function cerrarSesionAdmin() {
-        const passInput = document.getElementById('adminPassword');
-        if (passInput) passInput.value = '';
+        document.getElementById('adminPassword').value = '';
         document.getElementById('adminContainer').innerHTML = '';
-        const msg = document.getElementById('adminMensaje');
-        if (msg) msg.innerHTML = '';
+        document.getElementById('adminMensaje').innerHTML = '';
         document.querySelectorAll('.admin-action-panel').forEach(p => p.classList.remove('visible'));
         if (chartBarras) { chartBarras.destroy(); chartBarras = null; }
         if (chartDona) { chartDona.destroy(); chartDona = null; }
@@ -901,69 +1280,41 @@
         const container = document.getElementById('adminContainer');
         let html = '';
 
-        // === 1. GRÁFICAS (primero) ===
         if (data.datosBarras) {
             const k = data.kpis;
             html += `
                 <div class="charts-grid">
-                    <div class="chart-card">
-                        <h4>Producción por Trabajador (último día: ${k.fechaMasReciente || 'N/A'})</h4>
-                        <div class="chart-container"><canvas id="chartBarras"></canvas></div>
-                    </div>
-                    <div class="chart-card">
-                        <h4>Distribución por Nivel (todas las bitácoras)</h4>
-                        <div class="chart-container"><canvas id="chartDona"></canvas></div>
-                    </div>
+                    <div class="chart-card"><h4>Producción por Trabajador (${k.fechaMasReciente || 'N/A'})</h4><div class="chart-container"><canvas id="chartBarras"></canvas></div></div>
+                    <div class="chart-card"><h4>Distribución por Nivel</h4><div class="chart-container"><canvas id="chartDona"></canvas></div></div>
                 </div>
-                <div class="chart-card" style="margin-bottom: 25px;">
-                    <h4>Tendencia de Producción (últimos 7 días)</h4>
-                    <div class="chart-container" style="height: 300px;"><canvas id="chartTendencia"></canvas></div>
-                </div>
+                <div class="chart-card" style="margin-bottom:25px;"><h4>Tendencia (7 días)</h4><div class="chart-container" style="height:300px;"><canvas id="chartTendencia"></canvas></div></div>
             `;
         }
 
-        // === 2. KPIs ===
         if (data.kpis) {
             const k = data.kpis;
             html += `
                 <div class="stats-grid">
-                    <div class="stat-card kpi-produccion">
-                        <div class="stat-value">${k.totalProduccion}</div>
-                        <div class="stat-label">Producción Total (mostradas)</div>
-                    </div>
-                    <div class="stat-card kpi-promedio">
-                        <div class="stat-value">${k.promedio}</div>
-                        <div class="stat-label">Producción Promedio</div>
-                    </div>
-                    <div class="stat-card kpi-mejor">
-                        <div class="stat-value">${k.kpisHoy.mejor ? k.kpisHoy.mejor.produccion : '-'}</div>
-                        <div class="stat-label">Mejor del día: ${k.kpisHoy.mejor ? k.kpisHoy.mejor.usuario : '-'}</div>
-                    </div>
-                    <div class="stat-card kpi-peor">
-                        <div class="stat-value">${k.kpisHoy.menor ? k.kpisHoy.menor.produccion : '-'}</div>
-                        <div class="stat-label">Menor del día: ${k.kpisHoy.menor ? k.kpisHoy.menor.usuario : '-'}</div>
-                    </div>
+                    <div class="stat-card kpi-produccion"><div class="stat-value">${k.totalProduccion}</div><div class="stat-label">Producción Total</div></div>
+                    <div class="stat-card kpi-promedio"><div class="stat-value">${k.promedio}</div><div class="stat-label">Promedio</div></div>
+                    <div class="stat-card kpi-mejor"><div class="stat-value">${k.kpisHoy.mejor ? k.kpisHoy.mejor.produccion : '-'}</div><div class="stat-label">Mejor: ${k.kpisHoy.mejor ? k.kpisHoy.mejor.usuario : '-'}</div></div>
+                    <div class="stat-card kpi-peor"><div class="stat-value">${k.kpisHoy.menor ? k.kpisHoy.menor.produccion : '-'}</div><div class="stat-label">Menor: ${k.kpisHoy.menor ? k.kpisHoy.menor.usuario : '-'}</div></div>
                 </div>
             `;
         }
 
-        // === 3. BITÁCORAS (más recientes arriba) ===
         if (data.bitacoras && data.bitacoras.length > 0) {
             html += `<div class="card"><div class="card-header">Bitácoras (más reciente arriba)</div><div class="card-body">`;
             data.bitacoras.forEach(b => {
                 html += `
                     <div class="bitacora-item ${b.nivelClass}">
                         <div class="bitacora-header">
-                            <div>
-                                <span class="usuario">${b.usuario}</span>
-                                <span style="color:#6c757d; font-size:0.85rem;"> (${b.area})</span>
-                            </div>
+                            <div><span class="usuario">${b.usuario}</span><span style="color:#6c757d; font-size:0.85rem;"> (${b.area})</span></div>
                             <span class="fecha">${b.fechaStr}</span>
                         </div>
                         <div class="bitacora-info">
                             <span><strong>Producción:</strong> ${b.produccion}</span>
                             <span><strong>Horas:</strong> ${b.horas}</span>
-                            <span><strong>Movimientos:</strong> ${b.movimientos}</span>
                             <span class="nivel-badge ${b.nivelClass}">${b.nivel}</span>
                         </div>
                         ${b.descripcion ? `<div class="bitacora-descripcion">"${b.descripcion}"</div>` : ''}
@@ -972,405 +1323,220 @@
             });
             html += `</div></div>`;
         } else {
-            html += `<div class="message warning">No hay bitácoras registradas todavía.</div>`;
+            html += '<div class="message warning">No hay bitácoras registradas.</div>';
         }
 
         container.innerHTML = html;
 
-        // Renderizar gráficas
         if (data.datosBarras) {
             const d = data.datosBarras;
-            const ctxBarras = document.getElementById('chartBarras');
-            if (ctxBarras) {
-                chartBarras = new Chart(ctxBarras.getContext('2d'), {
-                    type: 'bar',
-                    data: { labels: d.labels, datasets: [{ label: 'Producción', data: d.producciones, backgroundColor: d.colores, borderRadius: 6 }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
-                });
-            }
+            const ctxB = document.getElementById('chartBarras');
+            if (ctxB) chartBarras = new Chart(ctxB, { type: 'bar', data: { labels: d.labels, datasets: [{ label: 'Producción', data: d.producciones, backgroundColor: d.colores, borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
+
             const niveles = ['Crítico', 'Normal', 'Óptimo', 'Mejor'];
-            const valoresNiveles = niveles.map(n => data.conteoNiveles[n] || 0);
-            const ctxDona = document.getElementById('chartDona');
-            if (ctxDona) {
-                chartDona = new Chart(ctxDona.getContext('2d'), {
-                    type: 'doughnut',
-                    data: { labels: niveles, datasets: [{ data: valoresNiveles, backgroundColor: ['#dc3545', '#ffc107', '#28a745', '#5DADE2'], borderWidth: 2, borderColor: '#fff' }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-                });
-            }
-            const ctxTend = document.getElementById('chartTendencia');
-            if (ctxTend) {
-                chartTendencia = new Chart(ctxTend.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: data.tendencia.map(t => t.fecha),
-                        datasets: [
-                            { label: 'Producción Total', data: data.tendencia.map(t => t.total), borderColor: '#2E86AB', backgroundColor: 'rgba(46, 134, 171, 0.15)', fill: true, tension: 0.35, pointBackgroundColor: '#2E86AB', pointRadius: 5, borderWidth: 3 },
-                            { label: 'Promedio', data: data.tendencia.map(t => t.promedio), borderColor: '#28a745', backgroundColor: 'rgba(40, 167, 69, 0.1)', fill: false, tension: 0.35, pointBackgroundColor: '#28a745', pointRadius: 4, borderWidth: 2, borderDash: [5, 5] }
-                        ]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
-                });
-            }
+            const valores = niveles.map(n => data.conteoNiveles[n] || 0);
+            const ctxD = document.getElementById('chartDona');
+            if (ctxD) chartDona = new Chart(ctxD, { type: 'doughnut', data: { labels: niveles, datasets: [{ data: valores, backgroundColor: ['#dc3545', '#ffc107', '#28a745', '#5DADE2'], borderWidth: 2, borderColor: '#fff' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
+
+            const ctxT = document.getElementById('chartTendencia');
+            if (ctxT) chartTendencia = new Chart(ctxT, {
+                type: 'line',
+                data: {
+                    labels: data.tendencia.map(t => t.fecha),
+                    datasets: [
+                        { label: 'Total', data: data.tendencia.map(t => t.total), borderColor: '#2E86AB', backgroundColor: 'rgba(46,134,171,0.15)', fill: true, tension: 0.35, pointRadius: 5, borderWidth: 3 },
+                        { label: 'Promedio', data: data.tendencia.map(t => t.promedio), borderColor: '#28a745', fill: false, tension: 0.35, pointRadius: 4, borderWidth: 2, borderDash: [5,5] }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+            });
         }
 
-        // Cargar la tabla de productos en el panel de "Gestionar Productos"
         renderGestionProductos(data.productos || []);
     }
 
     function renderGestionProductos(productos) {
         const cont = document.getElementById('gestionProductosContainer');
-        if (!productos || productos.length === 0) {
-            cont.innerHTML = '<div class="message warning">No hay productos registrados.</div>';
-            return;
-        }
-        let html = `<div class="table-container"><table>
-            <thead><tr><th>Color</th><th>Variedad</th><th>Grupo</th><th>Stock</th><th>Movs.</th><th>Acciones</th></tr></thead>
-            <tbody>`;
+        if (!productos || productos.length === 0) { cont.innerHTML = '<div class="message warning">No hay productos.</div>'; return; }
+        let html = '<div class="table-container"><table><thead><tr><th>Color</th><th>Variedad</th><th>Miristemos</th><th>Bioreactor</th><th>Multiplicación</th><th>Raíz</th><th>Planta Lavada</th><th>Invernadero</th><th>Total</th><th>Acciones</th></tr></thead><tbody>';
         productos.forEach(p => {
             const nombreEscapado = p.nombre.replace(/"/g, '&quot;');
-            const nombreCompleto = (p.color + ' - ' + p.nombre).replace(/"/g, '&quot;');
             html += `<tr>
-                <td>${p.color}</td>
-                <td>${p.nombre}</td>
-                <td>${p.grupo}</td>
-                <td>${p.stock}</td>
-                <td>${p.numMovimientos}</td>
+                <td>${p.color}</td><td>${p.nombre}</td>
+                <td>${p.miristemos}</td><td>${p.bioreactor}</td><td>${p.multiplicacion}</td><td>${p.raiz}</td>
+                <td>${p.planta.total || 0}</td><td>${p.invernadero}</td><td><strong>${p.total}</strong></td>
                 <td>
-                    <button class="btn btn-primary btn-sm" onclick='abrirModalEditar("${p._id}", "${p.color}", "${nombreEscapado}", "${p.grupo}")'>Editar</button>
-                    <button class="btn btn-warning btn-sm" onclick='abrirModalAjustar("${p._id}", "${nombreCompleto}")'>Ajustar</button>
-                    <button class="btn btn-danger btn-sm" onclick='eliminarProducto("${p._id}", "${nombreCompleto}", ${p.numMovimientos})'>Eliminar</button>
+                    <button class="btn btn-primary btn-sm" onclick='abrirModalEditar("${p._id}", "${p.color}", "${nombreEscapado}")'>Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick='eliminarProducto("${p._id}", "${p.color} - ${nombreEscapado}", ${p.total})'>Eliminar</button>
                 </td>
             </tr>`;
         });
-        html += `</tbody></table></div>`;
+        html += '</tbody></table></div>';
         cont.innerHTML = html;
     }
 
-    // ---------- MODALES ----------
-    function cerrarModal(id) { document.getElementById(id).classList.remove('visible'); }
-
-    function abrirModalEditar(id, color, nombre, grupo) {
+    function abrirModalEditar(id, color, nombre) {
         productoEditandoId = id;
         document.getElementById('editColor').value = color;
         document.getElementById('editNombre').value = nombre;
-        document.getElementById('editGrupo').value = grupo;
         document.getElementById('editPassword').value = '';
         document.getElementById('editResultado').innerHTML = '';
         document.getElementById('modalEditar').classList.add('visible');
     }
 
+    function cerrarModal(id) { document.getElementById(id).classList.remove('visible'); }
+
     function guardarEdicion() {
         const password = document.getElementById('editPassword').value;
         const nuevoColor = document.getElementById('editColor').value;
         const nuevoNombre = document.getElementById('editNombre').value.trim();
-        const nuevoGrupo = document.getElementById('editGrupo').value;
-
-        if (!password) return showMessage('editResultado', 'Ingrese la contraseña', 'error');
+        if (!password) return showMessage('editResultado', 'Ingrese contraseña', 'error');
         if (!nuevoNombre) return showMessage('editResultado', 'El nombre es obligatorio', 'error');
-
         fetch('/api/admin/editar-producto', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password, productoId: productoEditandoId, nuevoColor, nuevoNombre, nuevoGrupo })
-        })
-        .then(res => {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password, productoId: productoEditandoId, nuevoColor, nuevoNombre })
+        }).then(res => {
             if (res.status === 401) throw new Error('Contraseña incorrecta');
-            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error al editar'); });
+            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error'); });
             return res.json();
-        })
-        .then(data => {
+        }).then(data => {
             showMessage('editResultado', data.mensaje, 'success');
             setTimeout(() => { cerrarModal('modalEditar'); cargarTodoAdmin(); }, 1200);
-        })
-        .catch(error => showMessage('editResultado', error.message, 'error'));
+        }).catch(error => showMessage('editResultado', error.message, 'error'));
     }
 
-    function abrirModalAjustar(id, nombreCompleto) {
-        productoAjustandoId = id;
-        document.getElementById('ajustarProductoNombre').textContent = nombreCompleto;
-        document.getElementById('ajustarCantidad').value = '';
-        document.getElementById('ajustarMotivo').value = '';
-        document.getElementById('ajustarPassword').value = '';
-        document.getElementById('ajustarResultado').innerHTML = '';
-        document.getElementById('modalAjustar').classList.add('visible');
-    }
-
-    function guardarAjuste() {
-        const password = document.getElementById('ajustarPassword').value;
-        const cantidad = parseFloat(document.getElementById('ajustarCantidad').value);
-        const motivo = document.getElementById('ajustarMotivo').value.trim();
-
-        if (!password) return showMessage('ajustarResultado', 'Ingrese la contraseña', 'error');
-        if (isNaN(cantidad) || cantidad === 0) return showMessage('ajustarResultado', 'La cantidad debe ser diferente de 0', 'error');
-        if (!motivo) return showMessage('ajustarResultado', 'El motivo es obligatorio', 'error');
-
-        fetch('/api/admin/ajustar-stock', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password, productoId: productoAjustandoId, cantidad, motivo })
-        })
-        .then(res => {
-            if (res.status === 401) throw new Error('Contraseña incorrecta');
-            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error al ajustar'); });
-            return res.json();
-        })
-        .then(data => {
-            showMessage('ajustarResultado', data.mensaje, 'success');
-            setTimeout(() => { cerrarModal('modalAjustar'); cargarTodoAdmin(); }, 1200);
-        })
-        .catch(error => showMessage('ajustarResultado', error.message, 'error'));
-    }
-
-    function eliminarProducto(id, nombre, numMovs) {
-        if (numMovs > 0) {
-            alert(`No se puede eliminar "${nombre}" porque tiene ${numMovs} movimiento(s) asociados.\n\nSolo se puede editar.`);
-            return;
-        }
-        const password = prompt(`Vas a eliminar "${nombre}".\n\nEscribe la contraseña de admin para confirmar:`);
+    function eliminarProducto(id, nombre, total) {
+        if (total > 0) { alert(`No se puede eliminar "${nombre}" porque tiene stock. Solo se puede editar.`); return; }
+        const password = prompt(`Eliminar "${nombre}".\n\nEscribe la contraseña:`);
         if (!password) return;
-        if (!confirm(`¿Confirmas la eliminación de "${nombre}"? Esta acción no se puede deshacer.`)) return;
-
+        if (!confirm(`¿Confirmas la eliminación de "${nombre}"?`)) return;
         fetch('/api/admin/eliminar-producto', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password, productoId: id })
-        })
-        .then(res => {
+        }).then(res => {
             if (res.status === 401) throw new Error('Contraseña incorrecta');
-            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error al eliminar'); });
+            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error'); });
             return res.json();
-        })
-        .then(data => {
-            alert(data.mensaje);
-            cargarTodoAdmin();
-        })
+        }).then(data => { alert(data.mensaje); cargarTodoAdmin(); })
         .catch(error => alert(error.message));
     }
 
-    // ========== INVENTARIO INICIAL ==========
+    function handleInvGrupoChange() {
+        const grupo = document.getElementById('invGrupo').value;
+        const cont = document.getElementById('invCamposDinamicos');
+        cont.innerHTML = '';
+
+        if (grupo === 'Planta Lavada') {
+            cont.innerHTML = `
+                <label style="font-weight:600; color:#2E86AB; font-size:0.9rem; margin-bottom:8px; display:block;">Distribución de plantas por subdivisión *</label>
+                <div class="form-grid">
+                    <div class="form-group"><label for="invSubGrande">Grande</label><input id="invSubGrande" type="number" min="0" step="1" value="0"></div>
+                    <div class="form-group"><label for="invSubMediana">Mediana</label><input id="invSubMediana" type="number" min="0" step="1" value="0"></div>
+                    <div class="form-group"><label for="invSubChica">Chica</label><input id="invSubChica" type="number" min="0" step="1" value="0"></div>
+                    <div class="form-group"><label for="invSubSinRaiz">Sin Raíz</label><input id="invSubSinRaiz" type="number" min="0" step="1" value="0"></div>
+                </div>
+                <p id="invTotalPlantas" style="margin-top:10px; font-weight:600; color:#2E86AB;">Total: 0 plantas</p>
+            `;
+            ['invSubGrande', 'invSubMediana', 'invSubChica', 'invSubSinRaiz'].forEach(id => {
+                document.getElementById(id).addEventListener('input', () => {
+                    const g = parseInt(document.getElementById('invSubGrande').value) || 0;
+                    const m = parseInt(document.getElementById('invSubMediana').value) || 0;
+                    const c = parseInt(document.getElementById('invSubChica').value) || 0;
+                    const s = parseInt(document.getElementById('invSubSinRaiz').value) || 0;
+                    document.getElementById('invTotalPlantas').textContent = `Total: ${g + m + c + s} plantas`;
+                });
+            });
+        } else if (grupo) {
+            cont.innerHTML = `
+                <div class="form-group"><label for="invCantidad">Cantidad *</label><input id="invCantidad" type="number" min="1" step="1" placeholder="Ej. 500"></div>
+            `;
+        }
+    }
+
     function cargarInventarioInicial() {
         const password = document.getElementById('invPassword').value;
         const color = document.getElementById('invColor').value;
         const nombre = document.getElementById('invNombre').value.trim();
         const fechaProceso = document.getElementById('invFecha').value;
         const grupo = document.getElementById('invGrupo').value;
-        const cantidad = parseFloat(document.getElementById('invCantidad').value) || 0;
 
-        if (!password) return showMessage('invResultado', 'Ingrese la contraseña de admin', 'error');
-        if (!color || !nombre || !fechaProceso || !grupo || cantidad <= 0) return showMessage('invResultado', 'Todos los campos son obligatorios y cantidad > 0', 'error');
+        if (!password) return showMessage('invResultado', 'Ingrese contraseña', 'error');
+        if (!color || !nombre || !fechaProceso || !grupo) return showMessage('invResultado', 'Complete todos los campos', 'error');
 
-        document.getElementById('invResultado').innerHTML = '<div class="loading" style="display:block;">Cargando inventario...</div>';
+        let payload = { password, color, nombre, fechaProceso, grupo };
 
+        if (grupo === 'Planta Lavada') {
+            const grande = parseInt(document.getElementById('invSubGrande').value) || 0;
+            const mediana = parseInt(document.getElementById('invSubMediana').value) || 0;
+            const chica = parseInt(document.getElementById('invSubChica').value) || 0;
+            const sinRaiz = parseInt(document.getElementById('invSubSinRaiz').value) || 0;
+            const total = grande + mediana + chica + sinRaiz;
+            if (total <= 0) return showMessage('invResultado', 'Distribuya al menos una planta', 'error');
+            payload.subdivisiones = { grande, mediana, chica, sinRaiz };
+        } else {
+            const cantidad = parseFloat(document.getElementById('invCantidad').value) || 0;
+            if (cantidad <= 0) return showMessage('invResultado', 'Ingrese una cantidad válida', 'error');
+            payload.cantidad = cantidad;
+        }
+
+        document.getElementById('invResultado').innerHTML = '<div class="loading" style="display:block;">Cargando...</div>';
         fetch('/api/admin/inventario-inicial', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password, color, nombre, fechaProceso, grupo, cantidad })
-        })
-        .then(res => {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(res => {
             if (res.status === 401) throw new Error('Contraseña incorrecta');
-            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error al cargar'); });
+            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error'); });
             return res.json();
-        })
-        .then(data => {
+        }).then(data => {
             document.getElementById('invResultado').innerHTML = `<div class="message success">${data.mensaje}</div>`;
             document.getElementById('invNombre').value = '';
-            document.getElementById('invCantidad').value = '';
+            document.getElementById('invCamposDinamicos').innerHTML = '';
+            document.getElementById('invGrupo').value = '';
             cargarColores();
-        })
-        .catch(error => {
+        }).catch(error => {
             document.getElementById('invResultado').innerHTML = `<div class="message error">${error.message}</div>`;
         });
     }
 
-    // ========== RESET TOTAL ==========
     function ejecutarResetTotal() {
         const password = document.getElementById('resetPassword').value;
-        const resultados = document.getElementById('resetResultado');
+        if (!password) return showMessage('resetResultado', 'Ingrese contraseña', 'error');
+        if (!confirm('⚠️ Vas a BORRAR TODO. ¿Seguro?')) return;
+        if (!confirm('Última advertencia. ¿Confirmas?')) return;
 
-        if (!password) return showMessage('resetResultado', 'Ingrese la contraseña de admin', 'error');
-
-        if (!confirm('ATENCIÓN: Vas a BORRAR TODO el sistema.\n\nEsto elimina:\n- Todos los productos\n- Todos los movimientos\n- Todos los usuarios (excepto "Sistema")\n- Todas las bitácoras\n\n¿Estás seguro?')) return;
-        if (!confirm('ÚLTIMA ADVERTENCIA\n\nEsta acción NO se puede deshacer.\n\n¿Confirmas el borrado TOTAL del sistema?')) return;
-
-        resultados.innerHTML = '<div class="loading" style="display:block;">Borrando TODO...</div>';
-
+        document.getElementById('resetResultado').innerHTML = '<div class="loading" style="display:block;">Borrando...</div>';
         fetch('/api/admin/reset-total', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password })
-        })
-        .then(res => {
+        }).then(res => {
             if (res.status === 401) throw new Error('Contraseña incorrecta');
-            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error al hacer reset'); });
+            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error'); });
             return res.json();
-        })
-        .then(data => {
-            let html = `<div class="message success"><strong>Sistema reseteado:</strong><ul>`;
-            for (const [col, count] of Object.entries(data.resultados)) {
-                html += `<li>${col}: <strong>${count}</strong> registros borrados</li>`;
-            }
-            html += `</ul></div>`;
-            resultados.innerHTML = html;
-
+        }).then(data => {
+            let html = '<div class="message success"><strong>Sistema reseteado:</strong><ul>';
+            for (const [k, v] of Object.entries(data.resultados)) html += `<li>${k}: ${v}</li>`;
+            html += '</ul></div>';
+            document.getElementById('resetResultado').innerHTML = html;
             document.getElementById('resetPassword').value = '';
-            cargarUsuarios();
-            cargarColores();
-            cargarUsuariosBitacora();
-            loadDashboard();
-
-            document.getElementById('adminContainer').innerHTML = '<div class="message info">El sistema fue reseteado. Pulsa "Ver Todo" para ver el estado actual.</div>';
-            if (chartBarras) { chartBarras.destroy(); chartBarras = null; }
-            if (chartDona) { chartDona.destroy(); chartDona = null; }
-            if (chartTendencia) { chartTendencia.destroy(); chartTendencia = null; }
-        })
-        .catch(error => {
-            resultados.innerHTML = `<div class="message error">${error.message}</div>`;
+            cargarUsuarios(); cargarColores(); cargarUsuariosBitacora();
+        }).catch(error => {
+            document.getElementById('resetResultado').innerHTML = `<div class="message error">${error.message}</div>`;
         });
     }
 
-    // ---------- BUSCAR ----------
-    function buscarProducto() {
-        const texto = document.getElementById('buscarTexto').value.trim();
-        if (!texto) return showMessage('resultadosBusqueda', 'Ingrese un texto para buscar', 'warning');
-        callApi(`/buscar?q=${encodeURIComponent(texto)}`).then(data => displaySearchResults(data)).catch(() => showMessage('resultadosBusqueda', 'Error en la búsqueda', 'error'));
-    }
-    function buscarEnTiempoReal() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            const texto = document.getElementById('buscarTexto').value.trim();
-            if (texto.length >= 2) buscarProducto();
-            else if (texto.length === 0) document.getElementById('resultadosBusqueda').innerHTML = '';
-        }, 300);
-    }
-    function displaySearchResults(data) {
-        const container = document.getElementById('resultadosBusqueda');
-        if (data.length === 0) return container.innerHTML = '<div class="message warning">No se encontraron productos</div>';
-        let html = `<table><thead><tr><th>Color</th><th>Nombre</th><th>Fecha Proceso</th><th>Grupo</th><th>Stock</th></tr></thead><tbody>`;
-        data.forEach(p => {
-            const fecha = p.fechaProceso ? new Date(p.fechaProceso).toLocaleDateString('es-ES') : 'N/A';
-            html += `<tr><td>${p.color}</td><td>${p.nombre}</td><td>${fecha}</td><td>${p.grupo}</td><td>${p.stock}</td></tr>`;
-        });
-        html += '</tbody></table>';
-        container.innerHTML = html;
-    }
-
-    function mostrarStock() {
-        const loading = document.getElementById('loading');
-        const container = document.getElementById('stockTable');
-        loading.style.display = 'block';
-        callApi('/stock').then(data => {
-            loading.style.display = 'none';
-            if (data.length === 0) return container.innerHTML = '<div class="message warning">No hay productos registrados</div>';
-            let html = `<table><thead><tr><th>Color</th><th>Nombre</th><th>Fecha Proceso</th><th>Grupo</th><th>Stock</th><th>Estado</th></tr></thead><tbody>`;
-            data.forEach(p => {
-                const fecha = p.fechaProceso ? new Date(p.fechaProceso).toLocaleDateString('es-ES') : 'N/A';
-                let estado = 'Normal', cls = 'status-normal';
-                if (p.cantidad <= 0) { estado = 'Sin Stock'; cls = 'status-zero'; }
-                else if (p.cantidad <= p.stockMin && p.stockMin > 0) { estado = 'Stock Bajo'; cls = 'status-low'; }
-                html += `<tr class="${cls}"><td>${p.color}</td><td>${p.nombre}</td><td>${fecha}</td><td>${p.grupo}</td><td>${p.cantidad}</td><td>${estado}</td></tr>`;
-            });
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }).catch(() => { loading.style.display = 'none'; showMessage('stockTable', 'Error al cargar stock', 'error'); });
-    }
-
-    function mostrarAlertas() {
-        const loading = document.getElementById('loading');
-        const container = document.getElementById('stockTable');
-        loading.style.display = 'block';
-        callApi('/stock').then(data => {
-            loading.style.display = 'none';
-            const alertas = data.filter(p => p.cantidad <= 0 || (p.cantidad <= p.stockMin && p.stockMin > 0));
-            if (alertas.length === 0) return container.innerHTML = '<div class="message success">No hay productos con alertas</div>';
-            let html = `<table><thead><tr><th>Color</th><th>Nombre</th><th>Stock</th><th>Estado</th></tr></thead><tbody>`;
-            alertas.forEach(p => {
-                const estado = p.cantidad <= 0 ? 'Sin Stock' : 'Stock Bajo';
-                const cls = p.cantidad <= 0 ? 'status-zero' : 'status-low';
-                html += `<tr class="${cls}"><td>${p.color}</td><td>${p.nombre}</td><td>${p.cantidad}</td><td>${estado}</td></tr>`;
-            });
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }).catch(() => { loading.style.display = 'none'; showMessage('stockTable', 'Error al cargar alertas', 'error'); });
-    }
-
-    function showStockAlerts() {
-        callApi('/stock').then(data => {
-            const alertas = data.filter(p => p.cantidad <= 0 || (p.cantidad <= p.stockMin && p.stockMin > 0));
-            const container = document.getElementById('alertsContainer');
-            if (alertas.length === 0) return container.innerHTML = '<div class="message success">No hay productos con alertas</div>';
-            let html = `<div class="message warning"><strong>${alertas.length} producto(s) requieren atención</strong></div><table><thead><tr><th>Color</th><th>Nombre</th><th>Stock</th><th>Estado</th></tr></thead><tbody>`;
-            alertas.forEach(p => {
-                const estado = p.cantidad <= 0 ? 'Sin Stock' : 'Stock Bajo';
-                const cls = p.cantidad <= 0 ? 'status-zero' : 'status-low';
-                html += `<tr class="${cls}"><td>${p.color}</td><td>${p.nombre}</td><td>${p.cantidad}</td><td>${estado}</td></tr>`;
-            });
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }).catch(() => showMessage('alertsContainer', 'Error al cargar alertas', 'error'));
-    }
-
-    function mostrarHistorial() {
-        const desde = document.getElementById('fechaDesde').value;
-        const hasta = document.getElementById('fechaHasta').value;
-        const tipo = document.getElementById('filtroTipo').value;
-        if (!desde || !hasta) return showMessage('historialTable', 'Seleccione las fechas', 'warning');
-        callApi(`/historial?desde=${desde}&hasta=${hasta}&tipo=${encodeURIComponent(tipo)}`).then(data => {
-            const container = document.getElementById('historialTable');
-            if (data.length === 0) return container.innerHTML = '<div class="message warning">No hay movimientos en el período seleccionado</div>';
-            let html = `<div class="message success">Se encontraron ${data.length} movimientos</div><table><thead><tr><th>Fecha</th><th>Color</th><th>Nombre</th><th>Tipo</th><th>Cantidad</th><th>Usuario</th><th>Observaciones</th></tr></thead><tbody>`;
-            data.forEach(m => {
-                html += `<tr><td>${m.fecha}</td><td>${m.color}</td><td>${m.nombre}</td><td>${m.tipo}</td><td>${m.cantidad}</td><td>${m.usuario}</td><td>${m.observaciones || 'N/A'}</td></tr>`;
-            });
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }).catch(() => showMessage('historialTable', 'Error al cargar historial', 'error'));
-    }
-
-    function exportarStock() {
-        window.open('/api/exportar-stock', '_blank');
-        showMessage('stockTable', 'Exportando stock...', 'success');
-    }
-    function exportarReporte() {
-        const desde = document.getElementById('fechaDesde').value;
-        const hasta = document.getElementById('fechaHasta').value;
-        if (!desde || !hasta) return showMessage('historialTable', 'Seleccione las fechas', 'warning');
-        window.open(`/api/historial?desde=${desde}&hasta=${hasta}&tipo=${document.getElementById('filtroTipo').value}&format=csv`, '_blank');
-        showMessage('historialTable', 'Exportando reporte...', 'success');
-    }
-
+    // ========== CONFIGURACIÓN ==========
     function validarIntegridad() {
         callApi('/validar').then(data => {
             let html = '<h4>Validación de Integridad</h4>';
             if (data.errores.length === 1 && data.errores[0] === 'Todos los datos están correctos.') {
-                html += '<div class="message success">Todos los datos están correctos</div>';
+                html += '<div class="message success">Todo correcto</div>';
             } else {
-                html += '<div class="message error"><strong>Errores encontrados:</strong><ul>' + data.errores.map(e => `<li>${e}</li>`).join('') + '</ul></div>';
+                html += '<div class="message error"><ul>' + data.errores.map(e => `<li>${e}</li>`).join('') + '</ul></div>';
             }
             document.getElementById('configResults').innerHTML = html;
-        }).catch(() => showMessage('configResults', 'Error al validar', 'error'));
+        }).catch(() => showMessage('configResults', 'Error', 'error'));
     }
 
-    function limpiarFormProducto() {
-        document.getElementById('formProducto').reset();
-        document.getElementById('fechaProcesoProd').valueAsDate = new Date();
-        document.getElementById('msgProd').innerHTML = '';
-    }
-    function limpiarFormMovimiento() {
-        document.getElementById('formMovimiento').reset();
-        document.getElementById('fechaMov').valueAsDate = new Date();
-        document.getElementById('msgMov').innerHTML = '';
-        cargarColores();
-        cargarUsuarios();
-    }
-    function limpiarFormUsuario() {
-        document.getElementById('formUsuario').reset();
-        document.getElementById('msgUsuario').innerHTML = '';
-    }
-    function limpiarBusqueda() {
-        document.getElementById('buscarTexto').value = '';
-        document.getElementById('resultadosBusqueda').innerHTML = '';
-    }
     function limpiarTodosFormularios() {
         limpiarFormProducto();
         limpiarFormMovimiento();
@@ -1380,8 +1546,6 @@
         document.getElementById('configResults').innerHTML = '';
         document.getElementById('bitacoraContainer').innerHTML = '';
         document.getElementById('adminContainer').innerHTML = '';
-        document.getElementById('resetResultado').innerHTML = '';
-        document.getElementById('invResultado').innerHTML = '';
     }
 
     function showMessage(containerId, message, type) {
@@ -1402,7 +1566,7 @@
         if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
             e.preventDefault();
             if (currentTab === 'dashboard') loadDashboard();
-            if (currentTab === 'inventario') mostrarStock();
+            if (currentTab === 'inventario') cargarInventario();
         }
     });
   </script>
