@@ -6,7 +6,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(express.static('public'));
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
@@ -34,6 +34,7 @@ const ProductoSchema = new mongoose.Schema({
     fechaProceso: { type: Date, required: true },
     grupo: { type: String, required: true },
     stockMin: { type: Number, default: 0 },
+    fotoUrl: { type: String, default: '' },
     fechaCreacion: { type: Date, default: Date.now }
 });
 ProductoSchema.index({ color: 1, nombre: 1 }, { unique: true });
@@ -215,7 +216,7 @@ app.post('/api/productos', async (req, res) => {
         if (existe) return res.status(400).json('Ya existe este producto con el mismo color y nombre.');
         const fechaObj = getInicioDiaLocal(fechaProceso);
         if (isNaN(fechaObj.getTime())) return res.status(400).json('Fecha inválida.');
-        const nuevo = new Producto({ color, nombre, fechaProceso: fechaObj, grupo, stockMin: 0 });
+        const nuevo = new Producto({ color, nombre, fechaProceso: fechaObj, grupo, stockMin: 0, fotoUrl: '' });
         await nuevo.save();
         res.json('Producto registrado correctamente.');
     } catch (error) { res.status(500).json(`Error: ${error.message}`); }
@@ -230,6 +231,7 @@ app.get('/api/productos', async (req, res) => {
             const s = stocks[key] || { miristemos: 0, bioreactor: 0, multiplicacion: 0, raiz: 0, planta: { total: 0, grande: 0, mediana: 0, chica: 0, sinRaiz: 0 }, invernadero: 0 };
             return {
                 _id: p._id, color: p.color, nombre: p.nombre, fechaProceso: p.fechaProceso, grupo: p.grupo,
+                fotoUrl: p.fotoUrl || '',
                 stockMiristemos: s.miristemos, stockBioreactor: s.bioreactor,
                 stockMultiplicacion: s.multiplicacion,
                 stockRaiz: s.raiz, stockPlanta: s.planta, stockInvernadero: s.invernadero
@@ -255,6 +257,7 @@ app.get('/api/buscar', async (req, res) => {
             const total = s.miristemos + s.bioreactor + s.multiplicacion + s.raiz + (s.planta.total || 0) + s.invernadero;
             return {
                 color: p.color, nombre: p.nombre, fechaProceso: p.fechaProceso, grupo: p.grupo,
+                fotoUrl: p.fotoUrl || '',
                 stockMiristemos: s.miristemos, stockBioreactor: s.bioreactor,
                 stockMultiplicacion: s.multiplicacion, stockRaiz: s.raiz,
                 stockPlanta: s.planta, stockInvernadero: s.invernadero, stockTotal: total
@@ -274,6 +277,7 @@ app.get('/api/stock', async (req, res) => {
             const total = s.miristemos + s.bioreactor + s.multiplicacion + s.raiz + (s.planta.total || 0) + s.invernadero;
             return {
                 color: p.color, nombre: p.nombre, cantidad: total,
+                fotoUrl: p.fotoUrl || '',
                 miristemos: s.miristemos, bioreactor: s.bioreactor,
                 multiplicacion: s.multiplicacion, raiz: s.raiz,
                 plantaTotal: s.planta.total || 0, invernadero: s.invernadero, stockMin: 0
@@ -382,6 +386,7 @@ app.get('/api/validar', async (req, res) => {
 });
 
 // ==================== CONTINÚA EN PARTE 2 ====================
+
 // ==================== MOVIMIENTOS ====================
 app.post('/api/movimientos', async (req, res) => {
     try {
@@ -449,7 +454,6 @@ app.post('/api/movimientos', async (req, res) => {
             const permitidos = FLUJO_TRASPASOS[grupoOrigen] || [];
             if (!permitidos.includes(grupoDestino)) return res.status(400).json(`No se puede traspasar de "${grupoOrigen}" a "${grupoDestino}".`);
 
-            // Raíz → Planta Lavada
             if (grupoOrigen === 'Raíz' && grupoDestino === 'Planta Lavada') {
                 const frascos = parseFloat(cantidadFrascos);
                 if (isNaN(frascos) || frascos <= 0) return res.status(400).json('Debe indicar la cantidad de frascos.');
@@ -478,7 +482,6 @@ app.post('/api/movimientos', async (req, res) => {
                 return res.json(`Traspaso registrado: ${frascos} frascos → ${totalPlantas} plantas.`);
             }
 
-            // Planta Lavada → Invernadero (MÚLTIPLES SUBDIVISIONES)
             if (grupoOrigen === 'Planta Lavada' && grupoDestino === 'Invernadero') {
                 const sub = subdivisiones || {};
                 const grande = parseInt(sub.grande) || 0;
@@ -508,7 +511,6 @@ app.post('/api/movimientos', async (req, res) => {
                 return res.json(`Traspaso registrado: ${total} plantas a Invernadero.`);
             }
 
-            // Traspaso normal (Miristemos → Bioreactor, Bioreactor → Multiplicación/Raíz, Multiplicación → Raíz)
             const cant = parseFloat(cantidad);
             if (isNaN(cant) || cant <= 0) return res.status(400).json('La cantidad debe ser mayor a 0.');
 
@@ -597,7 +599,14 @@ app.get('/api/inventario/color/:grupo/:color', async (req, res) => {
             else if (grupo === 'Raíz') cant = s.raiz;
             else if (grupo === 'Planta Lavada') { cant = s.planta.total || 0; sub = s.planta; }
             else if (grupo === 'Invernadero') cant = s.invernadero;
-            if (cant > 0) porVariedad.push({ nombre: p.nombre, cantidad: cant, subdivisiones: sub });
+            if (cant > 0) {
+                porVariedad.push({
+                    nombre: p.nombre,
+                    cantidad: cant,
+                    fotoUrl: p.fotoUrl || '',
+                    subdivisiones: sub
+                });
+            }
         });
         res.json(porVariedad);
     } catch (error) { res.status(500).json([]); }
@@ -613,6 +622,7 @@ app.get('/api/inventario/variedad', async (req, res) => {
             const total = s.miristemos + s.bioreactor + s.multiplicacion + s.raiz + (s.planta.total || 0) + s.invernadero;
             return {
                 color: p.color, nombre: p.nombre,
+                fotoUrl: p.fotoUrl || '',
                 miristemos: s.miristemos, bioreactor: s.bioreactor,
                 multiplicacion: s.multiplicacion, raiz: s.raiz,
                 plantaGrande: s.planta.grande || 0, plantaMediana: s.planta.mediana || 0,
@@ -653,12 +663,12 @@ app.get('/api/exportar-stock', async (req, res) => {
     try {
         const [productos, movimientos] = await Promise.all([Producto.find({}), Movimiento.find({})]);
         const stocks = calcularStockDeTodosLosProductos(productos, movimientos);
-        let csv = '\uFEFFColor,Nombre,Miristemos,Bioreactor,Multiplicación,Raíz,Planta Grande,Planta Mediana,Planta Chica,Planta Sin Raíz,Planta Total,Invernadero,Total\n';
+        let csv = '\uFEFFColor,Nombre,Miristemos,Bioreactor,Multiplicación,Raíz,Planta Grande,Planta Mediana,Planta Chica,Planta Sin Raíz,Planta Total,Invernadero,Total,Foto\n';
         productos.forEach(p => {
             const key = `${p.color}|||${p.nombre}`;
             const s = stocks[key] || { miristemos: 0, bioreactor: 0, multiplicacion: 0, raiz: 0, planta: { grande: 0, mediana: 0, chica: 0, sinRaiz: 0, total: 0 }, invernadero: 0 };
             const total = s.miristemos + s.bioreactor + s.multiplicacion + s.raiz + (s.planta.total || 0) + s.invernadero;
-            csv += `"${p.color}","${p.nombre}",${s.miristemos},${s.bioreactor},${s.multiplicacion},${s.raiz},${s.planta.grande || 0},${s.planta.mediana || 0},${s.planta.chica || 0},${s.planta.sinRaiz || 0},${s.planta.total || 0},${s.invernadero},${total}\n`;
+            csv += `"${p.color}","${p.nombre}",${s.miristemos},${s.bioreactor},${s.multiplicacion},${s.raiz},${s.planta.grande || 0},${s.planta.mediana || 0},${s.planta.chica || 0},${s.planta.sinRaiz || 0},${s.planta.total || 0},${s.invernadero},${total},"${p.fotoUrl || ''}"\n`;
         });
         res.setHeader('Content-Type', 'text/csv; charset=utf-8');
         res.setHeader('Content-Disposition', 'attachment; filename=inventario_exportado.csv');
@@ -764,6 +774,7 @@ app.get('/api/admin/todo', async (req, res) => {
             const total = s.miristemos + s.bioreactor + s.multiplicacion + s.raiz + (s.planta.total || 0) + s.invernadero;
             return {
                 _id: p._id, color: p.color, nombre: p.nombre, grupo: p.grupo, fechaProceso: p.fechaProceso,
+                fotoUrl: p.fotoUrl || '',
                 miristemos: s.miristemos, bioreactor: s.bioreactor,
                 multiplicacion: s.multiplicacion, raiz: s.raiz,
                 planta: s.planta, invernadero: s.invernadero, total
@@ -782,6 +793,28 @@ app.get('/api/admin/todo', async (req, res) => {
     }
 });
 
+// ==================== ADMIN: GUARDAR FOTO ====================
+app.post('/api/admin/guardar-foto', async (req, res) => {
+    try {
+        const { password, productoId, fotoUrl } = req.body;
+        if (!password || password !== ADMIN_PASSWORD) return res.status(401).json({ error: 'Contraseña incorrecta' });
+        if (!productoId) return res.status(400).json({ error: 'Producto no especificado.' });
+
+        const producto = await Producto.findById(productoId);
+        if (!producto) return res.status(404).json({ error: 'Producto no encontrado.' });
+
+        // Si fotoUrl está vacío, se quita la foto
+        producto.fotoUrl = (fotoUrl || '').trim();
+        await producto.save();
+
+        const mensaje = producto.fotoUrl ? 'Foto guardada correctamente.' : 'Foto eliminada.';
+        res.json({ mensaje, fotoUrl: producto.fotoUrl });
+    } catch (error) {
+        console.error('Error guardar-foto:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // ==================== ADMIN: INVENTARIO INICIAL ====================
 app.post('/api/admin/inventario-inicial', async (req, res) => {
     try {
@@ -795,7 +828,7 @@ app.post('/api/admin/inventario-inicial', async (req, res) => {
         let producto = await Producto.findOne({ color, nombre });
         if (!producto) {
             const fechaObjProd = getInicioDiaLocal(fechaProceso);
-            producto = new Producto({ color, nombre, fechaProceso: fechaObjProd, grupo, stockMin: 0 });
+            producto = new Producto({ color, nombre, fechaProceso: fechaObjProd, grupo, stockMin: 0, fotoUrl: '' });
             await producto.save();
         }
 

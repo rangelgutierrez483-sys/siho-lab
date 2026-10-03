@@ -42,7 +42,7 @@
     .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
     .table-container { overflow-x: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #E5F2F7; }
     table { width: 100%; border-collapse: collapse; background: white; }
-    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #E5F2F7; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #E5F2F7; vertical-align: middle; }
     th { background: #F0F8FC; font-weight: 600; color: #2E86AB; font-size: 0.9rem; }
     tr:hover { background: #F8FBFD; }
     .status-normal { background: #d4edda; color: #155724; }
@@ -96,6 +96,7 @@
     .btn-tool-inv { background: #28a745; }
     .btn-tool-reset { background: #dc3545; }
     .btn-tool-prod { background: #2E86AB; }
+    .btn-tool-fotos { background: #9b59b6; }
     .admin-action-panel { display: none; background: white; border-radius: 0 0 12px 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin: 0; border: 2px solid #5DADE2; border-top: none; animation: slideDown 0.3s ease; }
     .admin-action-panel.visible { display: block; }
     @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
@@ -107,11 +108,19 @@
     .panel-warning { border-color: #dc3545 !important; }
     .panel-warning .panel-header { background: #f8d7da; }
     .panel-warning .panel-header h3 { color: #721c24; }
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+    .panel-fotos { border-color: #9b59b6 !important; }
+    .panel-fotos .panel-header { background: #f0e6f6; }
+    .panel-fotos .panel-header h3 { color: #9b59b6; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
     .modal-overlay.visible { display: flex; }
     .modal-box { background: white; border-radius: 12px; padding: 25px; max-width: 500px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
     .modal-box h3 { color: #2E86AB; margin-bottom: 15px; font-size: 1.2rem; }
     .modal-box .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+    .modal-foto-grande { background: transparent; padding: 0; max-width: 90vw; max-height: 90vh; }
+    .modal-foto-grande img { max-width: 100%; max-height: 85vh; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); display: block; }
+    .modal-foto-grande .foto-titulo { color: white; font-size: 1.1rem; font-weight: 600; text-align: center; margin-bottom: 10px; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
+    .modal-foto-grande .foto-cerrar { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; color: #333; line-height: 1; }
+    .modal-foto-grande .foto-cerrar:hover { background: white; }
     .inv-tabs { display: flex; gap: 5px; border-bottom: 2px solid #E5F2F7; margin-bottom: 20px; flex-wrap: wrap; }
     .inv-tab { padding: 10px 18px; background: transparent; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-weight: 600; color: #6c757d; font-size: 0.9rem; transition: all 0.2s; }
     .inv-tab:hover { color: #2E86AB; }
@@ -124,6 +133,14 @@
     .grupo-card .valor { font-size: 1.8rem; font-weight: 700; color: #2E86AB; }
     .grupo-card .unidad { font-size: 0.85rem; color: #6c757d; }
     .grupos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-bottom: 25px; }
+
+    /* Foto miniatura */
+    .foto-mini { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid #E5F2F7; transition: all 0.2s; display: block; }
+    .foto-mini:hover { transform: scale(1.08); box-shadow: 0 4px 12px rgba(0,0,0,0.2); border-color: #5DADE2; }
+    .foto-sin { display: inline-flex; align-items: center; justify-content: center; width: 80px; height: 80px; border-radius: 8px; background: #F0F8FC; color: #95a5a6; font-size: 0.7rem; text-align: center; border: 2px dashed #D5E8F0; }
+    .foto-input-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .foto-input-group input { flex: 1; min-width: 200px; }
+
     @media (max-width: 768px) {
       .sidebar { width: 100%; height: auto; position: fixed; top: 0; left: -100%; z-index: 1000; transition: left 0.3s ease; }
       .sidebar.open { left: 0; }
@@ -410,6 +427,7 @@
           <button class="btn-tool btn-tool-inv" onclick="togglePanel('panelInventario')">Cargar Inventario Inicial</button>
           <button class="btn-tool btn-tool-reset" onclick="togglePanel('panelReset')">Reset Total</button>
           <button class="btn-tool btn-tool-prod" onclick="togglePanel('panelProductos')">Gestionar Productos</button>
+          <button class="btn-tool btn-tool-fotos" onclick="togglePanel('panelFotos')">Fotos de Productos</button>
         </div>
 
         <!-- PANEL: CARGAR INVENTARIO INICIAL -->
@@ -494,6 +512,20 @@
           </div>
         </div>
 
+        <!-- PANEL: FOTOS DE PRODUCTOS -->
+        <div id="panelFotos" class="admin-action-panel panel-fotos">
+          <div class="panel-header">
+            <h3>Fotos de Productos</h3>
+            <button class="panel-close" onclick="togglePanel('panelFotos')">×</button>
+          </div>
+          <div class="panel-body">
+            <div class="message info" style="margin-top: 0;">
+              <strong>ℹ️</strong> Pega la URL de la foto de Cloudinary. Deja el campo vacío para quitar la foto.
+            </div>
+            <div id="fotosProductosContainer"></div>
+          </div>
+        </div>
+
         <div class="content-body">
           <div id="adminContainer"></div>
         </div>
@@ -546,8 +578,18 @@
     </div>
   </div>
 
+  <!-- MODAL VER FOTO GRANDE -->
+  <div id="modalVerFoto" class="modal-overlay" onclick="cerrarModal('modalVerFoto')">
+    <div class="modal-foto-grande" onclick="event.stopPropagation()">
+      <div class="foto-titulo" id="fotoTitulo"></div>
+      <img id="fotoImagenGrande" src="" alt="">
+      <button class="foto-cerrar" onclick="cerrarModal('modalVerFoto')">×</button>
+    </div>
+  </div>
+
 <!-- CONTINÚA EN PARTE 2 -->
- 
+
+
   <script>
     let currentTab = 'dashboard';
     let searchTimeout;
@@ -754,7 +796,6 @@
 
         const permitidos = FLUJO[origen] || [];
 
-        // CASO: Raíz → Planta Lavada (con subdivisiones)
         if (origen === 'Raíz') {
             cont.innerHTML = `
                 <div class="form-group">
@@ -782,7 +823,6 @@
             return;
         }
 
-        // CASO: Planta Lavada → Invernadero (MÚLTIPLES SUBDIVISIONES)
         if (origen === 'Planta Lavada') {
             cont.innerHTML = `
                 <div class="form-group">
@@ -806,7 +846,6 @@
             return;
         }
 
-        // CASO normal (Miristemos → Bioreactor, Bioreactor → Multiplicación/Raíz, Multiplicación → Raíz)
         const opciones = permitidos.map(g => `<option value="${g}">${g}</option>`).join('');
         cont.innerHTML = `
             <div class="form-group">
@@ -941,6 +980,21 @@
     function limpiarFormUsuario() {
         document.getElementById('formUsuario').reset();
         document.getElementById('msgUsuario').innerHTML = '';
+    }
+
+    // ========== HELPER: HTML DE FOTO ==========
+    function htmlFoto(fotoUrl, nombre) {
+        if (fotoUrl && fotoUrl.trim() !== '') {
+            const nombreSeguro = nombre.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            return `<img src="${fotoUrl}" class="foto-mini" onclick="verFotoGrande('${fotoUrl}', '${nombreSeguro}')" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';"><span class="foto-sin" style="display:none;">Sin imagen</span>`;
+        }
+        return `<span class="foto-sin">Sin imagen</span>`;
+    }
+
+    function verFotoGrande(url, nombre) {
+        document.getElementById('fotoTitulo').textContent = nombre;
+        document.getElementById('fotoImagenGrande').src = url;
+        document.getElementById('modalVerFoto').classList.add('visible');
     }
 
     // ========== INVENTARIO ==========
@@ -1095,11 +1149,12 @@
         callApi(`/inventario/color/${encodeURIComponent(grupo)}/${encodeURIComponent(color)}`).then(data => {
             if (!data.length) { cont.innerHTML = '<div class="message warning">Sin stock.</div>'; return; }
             let html = `<h4 style="color:#2E86AB; margin-bottom:15px;">${grupo} → ${color}</h4>`;
-            html += '<div class="table-container"><table><thead><tr><th>Variedad</th><th>Cantidad</th>';
+            html += '<div class="table-container"><table><thead><tr><th>Foto</th><th>Variedad</th><th>Cantidad</th>';
             if (grupo === 'Planta Lavada') html += '<th>Grande</th><th>Mediana</th><th>Chica</th><th>Sin Raíz</th>';
             html += '</tr></thead><tbody>';
             data.forEach(v => {
-                html += `<tr><td>${v.nombre}</td><td><strong>${v.cantidad}</strong></td>`;
+                const nombreCompleto = `${color} - ${v.nombre}`;
+                html += `<tr><td>${htmlFoto(v.fotoUrl, nombreCompleto)}</td><td>${v.nombre}</td><td><strong>${v.cantidad}</strong></td>`;
                 if (grupo === 'Planta Lavada' && v.subdivisiones) {
                     html += `<td>${v.subdivisiones.grande}</td><td>${v.subdivisiones.mediana}</td><td>${v.subdivisiones.chica}</td><td>${v.subdivisiones.sinRaiz}</td>`;
                 }
@@ -1115,9 +1170,10 @@
         cont.innerHTML = '<div class="loading" style="display:block;">Cargando...</div>';
         callApi('/inventario/variedad').then(data => {
             if (!data.length) { cont.innerHTML = '<div class="message warning">No hay productos.</div>'; return; }
-            let html = '<div class="table-container"><table><thead><tr><th>Color</th><th>Variedad</th><th>Miristemos</th><th>Bioreactor</th><th>Multiplicación</th><th>Raíz</th><th>Planta Lavada</th><th>Invernadero</th><th>Total</th></tr></thead><tbody>';
+            let html = '<div class="table-container"><table><thead><tr><th>Foto</th><th>Color</th><th>Variedad</th><th>Miristemos</th><th>Bioreactor</th><th>Multiplicación</th><th>Raíz</th><th>Planta Lavada</th><th>Invernadero</th><th>Total</th></tr></thead><tbody>';
             data.forEach(p => {
-                html += `<tr><td>${p.color}</td><td>${p.nombre}</td><td>${p.miristemos}</td><td>${p.bioreactor}</td><td>${p.multiplicacion}</td><td>${p.raiz}</td><td>${p.plantaTotal}</td><td>${p.invernadero}</td><td><strong>${p.total}</strong></td></tr>`;
+                const nombreCompleto = `${p.color} - ${p.nombre}`;
+                html += `<tr><td>${htmlFoto(p.fotoUrl, nombreCompleto)}</td><td>${p.color}</td><td>${p.nombre}</td><td>${p.miristemos}</td><td>${p.bioreactor}</td><td>${p.multiplicacion}</td><td>${p.raiz}</td><td>${p.plantaTotal}</td><td>${p.invernadero}</td><td><strong>${p.total}</strong></td></tr>`;
             });
             html += '</tbody></table></div>';
             cont.innerHTML = html;
@@ -1172,9 +1228,10 @@
     function displaySearchResults(data) {
         const container = document.getElementById('resultadosBusqueda');
         if (data.length === 0) return container.innerHTML = '<div class="message warning">No se encontraron productos</div>';
-        let html = '<div class="table-container"><table><thead><tr><th>Color</th><th>Nombre</th><th>Miristemos</th><th>Bioreactor</th><th>Multiplicación</th><th>Raíz</th><th>Planta Lavada</th><th>Invernadero</th><th>Total</th></tr></thead><tbody>';
+        let html = '<div class="table-container"><table><thead><tr><th>Foto</th><th>Color</th><th>Nombre</th><th>Miristemos</th><th>Bioreactor</th><th>Multiplicación</th><th>Raíz</th><th>Planta Lavada</th><th>Invernadero</th><th>Total</th></tr></thead><tbody>';
         data.forEach(p => {
-            html += `<tr><td>${p.color}</td><td>${p.nombre}</td><td>${p.stockMiristemos}</td><td>${p.stockBioreactor}</td><td>${p.stockMultiplicacion}</td><td>${p.stockRaiz}</td><td>${p.stockPlanta.total || 0}</td><td>${p.stockInvernadero}</td><td><strong>${p.stockTotal}</strong></td></tr>`;
+            const nombreCompleto = `${p.color} - ${p.nombre}`;
+            html += `<tr><td>${htmlFoto(p.fotoUrl, nombreCompleto)}</td><td>${p.color}</td><td>${p.nombre}</td><td>${p.stockMiristemos}</td><td>${p.stockBioreactor}</td><td>${p.stockMultiplicacion}</td><td>${p.stockRaiz}</td><td>${p.stockPlanta.total || 0}</td><td>${p.stockInvernadero}</td><td><strong>${p.stockTotal}</strong></td></tr>`;
         });
         html += '</tbody></table></div>';
         container.innerHTML = html;
@@ -1353,15 +1410,18 @@
         }
 
         renderGestionProductos(data.productos || []);
+        renderFotosProductos(data.productos || []);
     }
 
     function renderGestionProductos(productos) {
         const cont = document.getElementById('gestionProductosContainer');
         if (!productos || productos.length === 0) { cont.innerHTML = '<div class="message warning">No hay productos.</div>'; return; }
-        let html = '<div class="table-container"><table><thead><tr><th>Color</th><th>Variedad</th><th>Miristemos</th><th>Bioreactor</th><th>Multiplicación</th><th>Raíz</th><th>Planta Lavada</th><th>Invernadero</th><th>Total</th><th>Acciones</th></tr></thead><tbody>';
+        let html = '<div class="table-container"><table><thead><tr><th>Foto</th><th>Color</th><th>Variedad</th><th>Miristemos</th><th>Bioreactor</th><th>Multiplicación</th><th>Raíz</th><th>Planta Lavada</th><th>Invernadero</th><th>Total</th><th>Acciones</th></tr></thead><tbody>';
         productos.forEach(p => {
             const nombreEscapado = p.nombre.replace(/"/g, '&quot;');
+            const nombreCompleto = `${p.color} - ${p.nombre}`;
             html += `<tr>
+                <td>${htmlFoto(p.fotoUrl, nombreCompleto)}</td>
                 <td>${p.color}</td><td>${p.nombre}</td>
                 <td>${p.miristemos}</td><td>${p.bioreactor}</td><td>${p.multiplicacion}</td><td>${p.raiz}</td>
                 <td>${p.planta.total || 0}</td><td>${p.invernadero}</td><td><strong>${p.total}</strong></td>
@@ -1373,6 +1433,53 @@
         });
         html += '</tbody></table></div>';
         cont.innerHTML = html;
+    }
+
+    // ========== FOTOS DE PRODUCTOS (NUEVA SECCIÓN) ==========
+    function renderFotosProductos(productos) {
+        const cont = document.getElementById('fotosProductosContainer');
+        if (!productos || productos.length === 0) { cont.innerHTML = '<div class="message warning">No hay productos.</div>'; return; }
+        let html = '<div class="table-container"><table><thead><tr><th>Foto</th><th>Producto</th><th>URL de la Foto</th><th>Acciones</th></tr></thead><tbody>';
+        productos.forEach(p => {
+            const nombreCompleto = `${p.color} - ${p.nombre}`;
+            const nombreEscapado = p.nombre.replace(/"/g, '&quot;');
+            html += `<tr>
+                <td>${htmlFoto(p.fotoUrl, nombreCompleto)}</td>
+                <td><strong>${p.color}</strong> - ${p.nombre}</td>
+                <td>
+                    <input type="text" id="foto_input_${p._id}" value="${(p.fotoUrl || '').replace(/"/g, '&quot;')}" placeholder="Pega la URL de Cloudinary" style="width: 100%; min-width: 250px; font-size: 0.8rem;">
+                </td>
+                <td>
+                    <button class="btn btn-success btn-sm" onclick='guardarFotoProducto("${p._id}")'>Guardar</button>
+                </td>
+            </tr>`;
+        });
+        html += '</tbody></table></div>';
+        cont.innerHTML = html;
+    }
+
+    function guardarFotoProducto(productoId) {
+        const password = prompt('Ingresa la contraseña de admin para guardar la foto:');
+        if (!password) return;
+
+        const input = document.getElementById(`foto_input_${productoId}`);
+        const fotoUrl = input ? input.value.trim() : '';
+
+        fetch('/api/admin/guardar-foto', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password, productoId, fotoUrl })
+        })
+        .then(res => {
+            if (res.status === 401) throw new Error('Contraseña incorrecta');
+            if (!res.ok) return res.json().then(d => { throw new Error(d.error || 'Error'); });
+            return res.json();
+        })
+        .then(data => {
+            alert(data.mensaje);
+            cargarTodoAdmin();
+        })
+        .catch(error => alert('Error: ' + error.message));
     }
 
     function abrirModalEditar(id, color, nombre) {
@@ -1567,6 +1674,10 @@
             e.preventDefault();
             if (currentTab === 'dashboard') loadDashboard();
             if (currentTab === 'inventario') cargarInventario();
+        }
+        if (e.key === 'Escape') {
+            cerrarModal('modalEditar');
+            cerrarModal('modalVerFoto');
         }
     });
   </script>
